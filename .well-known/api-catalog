@@ -1,0 +1,14 @@
+{
+  "version": "2026-06-27",
+  "description": "This static personal site no longer exposes JSON API endpoints. Use llms.txt and the homepage for public metadata.",
+  "links": [
+    {
+      "rel": "llms.txt",
+      "href": "https://unclelyh.me/llms.txt"
+    },
+    {
+      "rel": "homepage",
+      "href": "https://unclelyh.me/"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "site-navigation",
+      "type": "skill-md",
+      "description": "Find structured profile, project, markdown, and API resources for unclelyh.me.",
+      "url": "/.well-known/agent-skills/site-navigation/SKILL.md",
+      "digest": "sha256:2d136329a766401be896676d9c30006d8850681ca3870eff1b32381a30cb303b"
+    },
+    {
+      "name": "contact-methods",
+      "type": "skill-md",
+      "description": "Get the public contact and profile endpoints for Uncle LYHME.",
+      "url": "/.well-known/agent-skills/contact-methods/SKILL.md",
+      "digest": "sha256:bd22cc17f565178384d332c1461f490b35725464155f9a0aa19b2646c7a1caba"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+
+RewriteCond %{HTTP_USER_AGENT} (archive.org_bot) [NC]
+RewriteRule .* - [R=403,L]
+
+RewriteCond %{REQUEST_URI} ^/$
+RewriteCond %{HTTP:Accept} text/markdown [NC]
+RewriteRule ^$ /index.md [L]
+
+RewriteCond %{REQUEST_URI} ^/index\.html$
+RewriteCond %{HTTP:Accept} text/markdown [NC]
+RewriteRule ^index\.html$ /index.md [L]
+
+AddType text/markdown .md
+AddCharset UTF-8 .md .json .txt
+
+<IfModule mod_headers.c>
+    SetEnvIfNoCase Request_URI "^/$" IS_HOME=1
+    SetEnvIfNoCase Request_URI "^/index\\.html$" IS_HOME=1
+    SetEnvIfNoCase Request_URI "^/$" IS_NEGOTIATED=1
+    SetEnvIfNoCase Request_URI "^/index\\.html$" IS_NEGOTIATED=1
+    SetEnvIfNoCase Request_URI "^/(api/.*\\.json|\\.well-known/api-catalog|\\.well-known/agent-skills/.*|\\.well-known/llms\\.txt)$" IS_DISCOVERY=1
+
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+    Header always set X-Frame-Options "DENY"
+    Header always set Cross-Origin-Resource-Policy "same-origin"
+    Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self'; font-src 'self'; manifest-src 'self'; upgrade-insecure-requests"
+    Header always set Access-Control-Allow-Origin "*" env=IS_DISCOVERY
+    Header always merge Vary "Accept" env=IS_NEGOTIATED
+    Header always add Link "</.well-known/api-catalog>; rel=\"api-catalog\"" env=IS_HOME
+    Header always add Link "</.well-known/llms.txt>; rel=\"describedby\"; type=\"text/plain\"" env=IS_HOME
+</IfModule>
+
+<Files "api-catalog">
+    ForceType application/linkset+json
+</Files>
+
+order allow,deny
+Deny from 198.245.53.182
+Deny from 37.1.213.27
+Deny from 5.188.0.77
+Deny from 37.1.213.27
+allow from all

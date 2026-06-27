@@ -1,0 +1,757 @@
+/* ============================================
+   Variables & Theme
+   ============================================ */
+:root {
+    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --max-width: 680px;
+}
+
+/* Dark theme (default) */
+:root, [data-theme="dark"] {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --accent: #3fb950;
+    --accent-hover: #56d364;
+    --border: #30363d;
+    --grid-color: rgba(48, 54, 61, 0.2);
+}
+
+/* Light theme */
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f6f8fa;
+    --text-primary: #1f2328;
+    --text-secondary: #656d76;
+    --text-muted: #8b949e;
+    --accent: #1a7f37;
+    --accent-hover: #238636;
+    --border: #d0d7de;
+    --grid-color: rgba(208, 215, 222, 0.3);
+}
+
+/* ============================================
+   Reset
+   ============================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================
+   Accessibility - Skip Link
+   ============================================ */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-secondary);
+    color: var(--accent);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid var(--border);
+    border-top: none;
+    text-decoration: none;
+    font-size: 0.85rem;
+    z-index: 1000;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: none;
+}
+
+/* ============================================
+   Accessibility - Focus States
+   ============================================ */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Remove default focus for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* ============================================
+   Theme Transition
+   ============================================ */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, fill 0.3s ease, stroke 0.3s ease !important;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-mono);
+    background-color: var(--bg-primary);
+    background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ============================================
+   Banner
+   ============================================ */
+.banner {
+    background: linear-gradient(90deg, #238636, #2ea043, #3fb950, #2ea043, #238636);
+    background-size: 200% 100%;
+    animation: gradient-shift 8s ease infinite;
+    color: #ffffff;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+@keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .banner {
+        animation: none;
+        background: linear-gradient(135deg, #238636 0%, #2ea043 50%, #238636 100%);
+        background-size: 100% 100%;
+    }
+}
+
+.banner a {
+    color: #ffffff;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.banner a:hover {
+    opacity: 0.9;
+}
+
+/* ============================================
+   Theme Toggle
+   ============================================ */
+.theme-toggle {
+    position: fixed;
+    top: 3rem;
+    right: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.theme-toggle:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Show sun in dark mode, moon in light mode */
+[data-theme="dark"] .sun-icon,
+:root:not([data-theme]) .sun-icon {
+    display: block;
+}
+
+[data-theme="dark"] .moon-icon,
+:root:not([data-theme]) .moon-icon {
+    display: none;
+}
+
+[data-theme="light"] .sun-icon {
+    display: none;
+}
+
+[data-theme="light"] .moon-icon {
+    display: block;
+}
+
+/* ============================================
+   Container
+   ============================================ */
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 2rem 1rem;
+    }
+}
+
+/* ============================================
+   Header
+   ============================================ */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.avatar:hover {
+    transform: scale(1.08) rotate(3deg);
+    border-color: var(--accent);
+}
+
+.header-content {
+    flex: 1;
+    min-width: 150px;
+}
+
+.header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.tagline {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin: 0.25rem 0 0 0;
+}
+
+.social-links {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.social-links a {
+    color: var(--text-secondary);
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-links a:hover {
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.social-links svg,
+.icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   Divider
+   ============================================ */
+.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+}
+
+/* ============================================
+   Sections
+   ============================================ */
+.section {
+    margin-bottom: 0;
+}
+
+.section h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.section h2::before {
+    content: "## ";
+    color: var(--text-muted);
+}
+
+.section p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.section p:last-child {
+    margin-bottom: 0;
+}
+
+.section strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* ============================================
+   Entries (Experience, Projects)
+   ============================================ */
+.entry {
+    margin-bottom: 1.5rem;
+}
+
+.entry:last-child {
+    margin-bottom: 0;
+}
+
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.entry h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.entry h3::before {
+    content: "### ";
+    color: var(--text-muted);
+}
+
+.date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.company {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.privacy-scribble {
+    position: relative;
+    display: inline-block;
+    width: 7.8ch;
+    height: 1em;
+    color: transparent;
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: -0.08em;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--border) 46%, transparent);
+}
+
+.privacy-scribble::before {
+    content: "";
+    position: absolute;
+    inset: -0.12em -0.2em -0.1em -0.22em;
+    border-radius: 4px;
+    background:
+        repeating-linear-gradient(
+            8deg,
+            transparent 0 0.09em,
+            color-mix(in srgb, var(--text-primary) 82%, var(--text-secondary) 18%) 0.09em 0.18em
+        ),
+        repeating-linear-gradient(
+            -6deg,
+            transparent 0 0.11em,
+            color-mix(in srgb, var(--text-primary) 75%, var(--text-secondary) 25%) 0.11em 0.2em
+        );
+    opacity: 0.86;
+    transform: rotate(-1.8deg) translateY(0.02em);
+    filter: blur(0.12px);
+    animation: privacy-scribble-wobble-a 1.6s ease-in-out infinite alternate;
+}
+
+.privacy-scribble::after {
+    content: "";
+    position: absolute;
+    inset: -0.08em -0.18em -0.05em -0.18em;
+    border-radius: 3px;
+    background:
+        repeating-linear-gradient(
+            -14deg,
+            transparent 0 0.1em,
+            color-mix(in srgb, var(--text-primary) 88%, var(--text-secondary) 12%) 0.1em 0.16em
+        );
+    opacity: 0.65;
+    transform: rotate(2.4deg) translateY(-0.01em);
+    filter: blur(0.08px);
+    pointer-events: none;
+    animation: privacy-scribble-wobble-b 1.3s ease-in-out infinite alternate;
+}
+
+@keyframes privacy-scribble-wobble-a {
+    0% { transform: rotate(-2.3deg) translateY(-0.02em) translateX(-0.02em); }
+    100% { transform: rotate(-1.2deg) translateY(0.04em) translateX(0.03em); }
+}
+
+@keyframes privacy-scribble-wobble-b {
+    0% { transform: rotate(2.8deg) translateY(0.01em) translateX(0.02em); }
+    100% { transform: rotate(1.9deg) translateY(-0.03em) translateX(-0.03em); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .privacy-scribble::before,
+    .privacy-scribble::after {
+        animation: none;
+    }
+}
+
+.entry ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.entry li {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.25rem;
+}
+
+.entry li::before {
+    content: "-";
+    position: absolute;
+    left: 0.5rem;
+    color: var(--text-muted);
+}
+
+.link-arrow {
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease, letter-spacing 0.2s ease;
+}
+
+.link-arrow:hover {
+    color: var(--accent-hover);
+    letter-spacing: 0.5px;
+}
+
+/* Entry Links */
+.entry-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.entry-link {
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.entry-link:hover {
+    color: var(--accent-hover);
+    border-color: var(--accent);
+    background-color: var(--bg-secondary);
+    transform: translateX(3px);
+}
+
+/* ============================================
+   Now List
+   ============================================ */
+.now-list {
+    list-style: none;
+    padding: 0;
+}
+
+.now-list li {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.now-list li::before {
+    content: ">";
+    position: absolute;
+    left: 0.25rem;
+    color: var(--accent);
+}
+
+/* ============================================
+   Skills
+   ============================================ */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.skill-tag {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--bg-secondary);
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.skill-tag:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+}
+
+/* Skill tags with tooltips - remove dotted underline since they have borders */
+.skill-tag.tooltip {
+    border-bottom: none;
+}
+
+/* ============================================
+   Link List
+   ============================================ */
+.link-list {
+    list-style: none;
+    padding: 0;
+}
+
+.link-list li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.link-list li::before {
+    content: "-";
+    position: absolute;
+    left: 0.5rem;
+    color: var(--text-muted);
+}
+
+.link-list a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.link-list a:hover {
+    color: var(--accent-hover);
+    padding-left: 4px;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+}
+
+.footer p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+/* ============================================
+   Tooltips
+   ============================================ */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted var(--text-muted);
+    cursor: help;
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    width: max-content;
+    max-width: min(250px, calc(100vw - 24px));
+    text-align: center;
+    z-index: 100;
+    white-space: normal;
+    line-height: 1.4;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.tooltip-text.positioned {
+    opacity: 1;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: var(--arrow-left, 50%);
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--border) transparent transparent transparent;
+}
+
+.tooltip-text.visible {
+    display: block;
+}
+
+/* ============================================
+   Code-like elements
+   ============================================ */
+code, pre {
+    font-family: var(--font-mono);
+    background-color: var(--bg-secondary);
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.85rem;
+}
+
+/* ============================================
+   Selection
+   ============================================ */
+::selection {
+    background-color: var(--accent);
+    color: var(--bg-primary);
+}
+
+/* ============================================
+   Back to Top Button
+   ============================================ */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.back-to-top svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ============================================
+   Toast Notification
+   ============================================ */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.toast.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+
+    .theme-toggle,
+    .social-links {
+        display: none;
+    }
+
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+
+    .divider {
+        border-color: #ccc;
+    }
+
+    .section h2::before,
+    .entry h3::before {
+        color: #666;
+    }
+}

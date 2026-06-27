@@ -1,0 +1,34 @@
+# Uncle LYHME Personal Site
+
+> Canonical URL: https://unclelyh.me
+
+## Overview
+Personal portfolio website for Uncle LYHME (Systems Administrator and Developer). The site presents profile details, experience, skills, social links, and selected projects.
+
+## Audience
+- Recruiters and hiring managers
+- Potential clients and collaborators
+- Community members looking for projects/contact info
+
+## Main Content Areas
+- About / personal summary
+- Current focus and activities
+- Professional experience history
+- Skills and tooling
+- Featured projects
+- Contact and social profiles
+
+## Technical Notes
+- Static site (HTML, CSS, JavaScript)
+- Main files: `index.html`, `assets/css/style.css`, `assets/js/main.js`
+- SEO assets: `robots.txt`, `sitemap.xml`
+- Machine-readable discovery resources are published from static files in `.well-known/`
+
+## Key Links
+- Site: https://unclelyh.me
+- Peptide Tracker project: https://tracker.unclelyh.me
+- GitHub: https://github.com/unclelyhme
+- X: https://x.com/unclelyhme
+- Markdown homepage: https://unclelyh.me/ (request with `Accept: text/markdown`)
+- API catalog: https://unclelyh.me/.well-known/api-catalog
+- Agent skills index: https://unclelyh.me/.well-known/agent-skills/index.json

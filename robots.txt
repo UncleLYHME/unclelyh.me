@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /cdn-cgi/
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+Sitemap: https://unclelyh.me/sitemap.xml

@@ -1,0 +1,13 @@
+.git
+.gitignore
+.DS_Store
+.env
+.env.*
+CLAUDE.md
+node_modules/
+dist/
+build/
+.cache/
+.vscode/
+.idea/
+*.log
