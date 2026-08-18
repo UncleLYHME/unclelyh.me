@@ -1,0 +1,462 @@
+/* ============================================
+   Layout — backdrop, header, hero, switch,
+   cable + node sections, footer, print resume
+   ============================================ */
+
+/* ---- Page column ---- */
+.frame {
+    position: relative;
+    z-index: 1;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---- Site header ---- */
+.site-head {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    height: var(--head-h);
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    border-bottom: 1px solid var(--rule);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.wordmark {
+    font-weight: 800;
+    font-stretch: 118%;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.wordmark:hover { color: var(--fg); }
+.wordmark .tld { color: var(--accent-ink); }
+
+.head-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    margin-left: auto;
+}
+.head-nav a {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--fg-dim);
+}
+.head-nav a:hover { color: var(--accent-ink); }
+
+/* ---- Hero ---- */
+.hero {
+    padding: clamp(1.75rem, 3.5vw, 2.75rem) 0 clamp(2.5rem, 6vw, 4rem);
+}
+.hero-eyebrow {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--fg-faint);
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+.hero-eyebrow .live { color: var(--accent-ink); }
+
+.hero-name {
+    font-size: clamp(3.2rem, 12vw, 8.75rem);
+    line-height: 0.88;
+    font-weight: 900;
+    font-stretch: 125%;
+    text-transform: uppercase;
+    letter-spacing: -0.015em;
+    margin-left: -0.04em;
+}
+.hero-name .row { display: block; overflow: hidden; }
+.hero-name .row > span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: rise 0.9s var(--ease) forwards;
+}
+.hero-name .row:nth-child(2) > span {
+    animation-delay: 0.12s;
+    -webkit-text-stroke: 2px var(--fg);
+    color: transparent;
+}
+@keyframes rise { to { transform: translateY(0); } }
+
+.hero-tagline {
+    margin-top: 1.1rem;
+    color: var(--fg-dim);
+}
+.hero-tagline .real-name { color: var(--accent-ink); font-weight: 600; }
+.hero-about {
+    max-width: 36em;
+    margin-top: clamp(1.5rem, 4vw, 2.25rem);
+    color: var(--fg-dim);
+    font-size: clamp(1rem, 1.5vw, 1.12rem);
+    font-weight: 440;
+}
+.hero-about p + p { margin-top: 0.9rem; }
+.hero-about strong { color: var(--fg); font-weight: 640; }
+
+.status-badge {
+    margin-top: 1.4rem;
+    font-size: 0.92rem;
+}
+.status-badge .dot {
+    display: inline-block;
+    width: 0.55em; height: 0.55em;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 0.4em;
+    animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: 0.4; } }
+
+.hero-social {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.3rem;
+    margin-top: 1.1rem;
+}
+.hero-social a {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--fg-faint);
+}
+.hero-social a:hover { color: var(--accent-ink); }
+
+/* ---- Core switch: source of all power ---- */
+.switch {
+    border: 1px solid var(--rule-strong);
+    background: var(--bg-elev);
+    box-shadow: 0 24px 70px -45px rgba(0, 0, 0, 0.9);
+}
+.switch-face {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.8rem 1.15rem;
+    background: repeating-linear-gradient(90deg,
+        transparent 0 5px,
+        color-mix(in srgb, var(--fg) 3.5%, transparent) 5px 6px);
+}
+.switch-name {
+    font-size: 0.8rem;
+    font-weight: 750;
+    font-stretch: 116%;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.switch-note {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    white-space: nowrap;
+}
+.switch-ports {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15px, 1fr));
+    gap: 6px 5px;
+    padding: 0.8rem 1.15rem 0.9rem;
+    border-top: 1px solid var(--rule);
+}
+.switch-ports i {
+    height: 8px;
+    background: var(--bg-inset);
+    border: 1px solid var(--rule-strong);
+}
+/* only ports with a cable plugged in blink — cable.js marks them */
+.switch-ports i.live {
+    --port: var(--accent);
+    animation: port-blink 1.4s steps(2, jump-none) infinite;
+}
+@keyframes port-blink {
+    0%, 100% { background: var(--bg-inset); box-shadow: none; }
+    50% { background: var(--port); border-color: var(--port); box-shadow: 0 0 6px var(--port); }
+}
+
+/* ---- The cable run ---- */
+.run {
+    position: relative;
+    /* x position of the node ports; riser lanes stack to the left */
+    --cable-x: clamp(3.5rem, 8vw, 4.5rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+}
+.cable {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+.cable .base {
+    fill: none;
+    stroke: var(--rule-strong);
+    stroke-width: 4;
+    stroke-linecap: round;
+}
+.cable .live {
+    fill: none;
+    stroke: var(--accent); /* per-line color set inline by cable.js */
+    stroke-width: 4;
+    stroke-linecap: round;
+}
+.cable .pulse {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.85);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 3 46;
+    animation: cable-pulse 1.3s linear infinite;
+}
+@keyframes cable-pulse { to { stroke-dashoffset: -49; } }
+
+/* ---- Node sections: no casing, just a plug and content ---- */
+.node {
+    position: relative;
+    margin-top: clamp(4rem, 10vw, 6.5rem);
+    padding-left: calc(var(--cable-x) + clamp(1.6rem, 5vw, 3rem));
+}
+.node-head {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: clamp(1.25rem, 3vw, 1.75rem);
+}
+/* the jack the cable plugs into — cable.js aims at .port */
+.node .port {
+    position: absolute;
+    left: var(--cable-x);
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: var(--bg-inset);
+    border: 1px solid var(--rule-strong);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.node .port::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: var(--rule-strong);
+    transition: background 0.3s ease;
+}
+.node.powered .port {
+    border-color: var(--line, var(--accent));
+    box-shadow: 0 0 10px color-mix(in srgb, var(--line, var(--accent)) 50%, transparent);
+}
+.node.powered .port::after { background: var(--line, var(--accent)); }
+
+/* per-U power indicator */
+.node-head .pwr {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+}
+.node-head .pwr i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bg-inset);
+    border: 1px solid var(--rule-strong);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.node.powered .pwr i {
+    background: var(--line, var(--accent));
+    border-color: var(--line, var(--accent));
+    box-shadow: 0 0 8px color-mix(in srgb, var(--line, var(--accent)) 60%, transparent);
+    animation: pulse 1.6s ease-in-out infinite;
+}
+
+.node-head .unit {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+}
+/* quiet section labels: the content is the loud part */
+.node-head h2 {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    line-height: 1;
+}
+.node-head .note {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+}
+
+.node-body {
+    opacity: 0.35;
+    transform: translateY(6px);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+.node.powered .node-body { opacity: 1; transform: none; }
+
+/* ---- Footer ---- */
+.footer {
+    margin-top: auto;
+    padding: 1.5rem 0 2rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    justify-content: space-between;
+    color: var(--fg-faint);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.footer kbd {
+    font-family: inherit;
+    border: 1px solid var(--rule-strong);
+    padding: 0.1em 0.4em;
+    font-size: 0.9em;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+    .hero-name .row > span { transform: none; animation: none; }
+    .status-badge .dot { animation: none; }
+    .switch-ports i.live { animation: none; background: var(--port); border-color: var(--port); }
+    .cable .pulse { animation: none; display: none; }
+    .node-body { transition: none; }
+    .node.powered .pwr i { animation: none; }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+    .head-nav { gap: 1rem; }
+}
+@media (max-width: 700px) {
+    .head-nav { display: none; }
+    .site-head { height: 2.75rem; }
+    .hero { padding-top: 1.75rem; }
+    .hero-eyebrow { margin-bottom: 1.1rem; }
+    .node-head { flex-wrap: wrap; gap: 0.5rem 0.9rem; }
+    .node-head .note { display: none; }
+    .switch-note { display: none; }
+    .switch-face { padding: 0.7rem 1rem; }
+    .run { --cable-x: 2.5rem; }
+    .node { padding-left: calc(var(--cable-x) + 1.3rem); }
+    .hero-eyebrow { flex-direction: column; gap: 0.25rem; }
+}
+
+/* ---- Print: a dedicated resume document (see #resume-doc in index.html).
+       The themed page is hidden entirely; what prints is a classic
+       single-column resume that ATS parsers read cleanly. ---- */
+.print-resume { display: none; }
+
+@media print {
+    /* zero page margins so the browser has nowhere to print its own
+       header/footer (URL, date, page number); we pad the document instead */
+    @page { margin: 0; }
+    html { color-scheme: light; }
+    body { background: #fff; color: #000; overflow: visible; }
+    .glow, .grain, .frame, .chat-pop, .chat-launcher,
+    .palette-overlay, .toast, .skip-link { display: none !important; }
+
+    .print-resume {
+        display: block;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 11.5px;
+        line-height: 1.45;
+        color: #000;
+        max-width: 100%;
+        padding: 14mm 16mm;
+    }
+    .print-resume h1 {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+    }
+    .print-resume .r-title { font-size: 12.5px; font-weight: 600; margin-top: 2px; }
+    .print-resume .r-contact { font-size: 11px; color: #222; margin-top: 2px; }
+    .print-resume h2 {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-bottom: 1px solid #000;
+        padding-bottom: 2px;
+        margin: 14px 0 6px;
+    }
+    .print-resume h3 { font-size: 12px; font-weight: 700; margin: 0 0 2px; }
+    .print-resume p { margin: 2px 0; }
+    .print-resume ul { margin: 2px 0 4px; padding-left: 16px; }
+    .print-resume li { margin: 1px 0; }
+
+    /* experience: date gutter left, content right, hairline between roles */
+    .print-resume article {
+        display: grid;
+        grid-template-columns: 84px 1fr;
+        gap: 0 14px;
+        break-inside: avoid;
+        padding-top: 7px;
+        margin-top: 7px;
+        border-top: 1px solid #ddd;
+    }
+    .print-resume h2 + article { border-top: none; margin-top: 0; padding-top: 2px; }
+    .print-resume .r-when {
+        font-size: 10.5px;
+        color: #555;
+        white-space: nowrap;
+        padding-top: 2px;
+    }
+    .print-resume .r-stack {
+        font-size: 10.5px;
+        color: #777;
+        margin-top: 3px;
+    }
+
+    /* labeled footer block */
+    .print-resume .r-foot {
+        margin-top: 14px;
+        border-top: 1px solid #000;
+        padding-top: 6px;
+        font-size: 10.5px;
+        color: #222;
+    }
+    .print-resume .r-foot div { margin: 2px 0; }
+    .print-resume .r-label {
+        display: inline-block;
+        width: 84px;
+        color: #777;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 9.5px;
+    }
+}

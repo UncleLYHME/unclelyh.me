@@ -1,9 +1,9 @@
-# Uncle LYHME Personal Site
+# Morgan Nuttall (Uncle LYHME) Personal Site
 
 > Canonical URL: https://unclelyh.me
 
 ## Overview
-Personal portfolio website for Uncle LYHME (Systems Administrator and Developer). The site presents profile details, experience, skills, social links, and selected projects.
+Personal portfolio website for Morgan Nuttall, known online as Uncle LYHME (developer, infrastructure & platform engineer, and prompt engineer experienced with Claude Code and Codex). The site presents profile details, experience, skills, social links, and selected projects.
 
 ## Audience
 - Recruiters and hiring managers
@@ -20,7 +20,7 @@ Personal portfolio website for Uncle LYHME (Systems Administrator and Developer)
 
 ## Technical Notes
 - Static site (HTML, CSS, JavaScript)
-- Main files: `index.html`, `assets/css/style.css`, `assets/js/main.js`
+- Main files: `index.html`, `assets/css/tokens.css`, `assets/css/layout.css`, `assets/css/components.css`, `assets/js/main.js`
 - SEO assets: `robots.txt`, `sitemap.xml`
 - Machine-readable discovery resources are published from static files in `.well-known/`
 

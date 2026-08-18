@@ -1,8 +1,8 @@
-# Uncle LYHME
+# Morgan Nuttall (Uncle LYHME)
 
 > Canonical URL: https://unclelyh.me
 
-Father | Systems Administrator | Developer
+Morgan Nuttall, known online as Uncle LYHME · father · app developer · infrastructure & platform · prompt engineer
 
 ## Contact
 
@@ -15,74 +15,75 @@ Father | Systems Administrator | Developer
 
 ## About
 
-Father, gamer, Apple fanboy, and systems administrator with a track record of delivering technical solutions and building platforms from the ground up. Focused on bridging technical execution with operational efficiency, building systems, leading teams, and solving real problems with software.
+I build things. Lately that means apps: shipping tools that solve real problems and actually get used. Under the hood I think like an infrastructure and platform engineer: Docker at scale, CI/CD, and keeping systems boring in the best way. These days that includes AI: I'm a prompt engineer who works with Claude Code and Codex daily, and I build for agents as much as for people; this site ships its own llms.txt and WebMCP tools. Father, gamer, and unapologetic Apple nerd. I started out keeping other people's systems alive; now I spend my days turning ideas into software.
 
-## Right Now
+## Today
 
 - Spending time with family
 - Building a peptide tracker
-- Working on systems and tools at a private company
+- Working on systems and tools at Creovia
 
 ## Experience
 
-### Systems Administrator | 2023 - Present
+### Systems Administrator, Creovia | 2023 - Present
 
-- Build internal tools and custom apps, including maps, an Excel diff tool, and QR generator workflows
-- Run nationwide Docker infrastructure
-- Set up CI/CD and wrote system documentation
-- Reduced hosting spend by about $70k per year
+I own the infrastructure and internal tooling for a company operating nationwide.
+
+- Run the company's Docker infrastructure across the country: deployments, monitoring, and upgrades designed to stay boring
+- Own creovia.tools end to end: the design, every module's launch, and monthly release updates
+- Build internal tools with real daily users: interactive maps, an Excel diff tool, and QR-code workflows
+- Introduced CI/CD and wrote the systems documentation, so releases are repeatable and knowledge is shared
+- Cut hosting spend by $70k per year through optimization
 
 ### Founder & Owner, LYHME, Inc. | 2015 - Present
 
-- Started a game server hosting company serving Asia, the US, and Europe
-- Handle servers, websites, and community management
-- Built and led a remote team
+I founded a game-server hosting company and ran it end to end for nearly a decade.
+
+- Hosted 200+ game servers across 9+ locations in Asia, the US, and Europe
+- Owned the full operation: the server fleet, customer-facing websites, and community management
+- Built and led a fully remote team
 
 ### Web Technician, Charter One | 2022
 
-- Maintained more than 15 school websites
-- Redesigned sites and improved UX
+I kept a portfolio of school websites healthy and helped a major platform migration land.
+
+- Maintained 15+ school websites, including redesigns and UX improvements
 - Helped migrate American Leadership Academy to a multi-state platform
 - Link: https://alaschools.org
 
 ### Retail, Best Buy and Walmart | 2021 - 2022
 
+Customer-facing years that taught me service under pressure.
+
 - Customer service, inventory, and online order fulfillment
-- Team lead mentor program at Walmart
+- Selected for Walmart's team lead mentor program
 
 ## Skills
 
-- Docker
-- Python
-- Flask
-- Django
-- HTML
-- CSS
-- JavaScript
-- SQL
-- Linux
-- Windows
-- macOS
-- Git
-- CI/CD
-- Tailscale
-- Cloudflare
-- Automation
-- Accounting
-- Scripting and automation
-- Project management
-- Technical documentation
-- Cost optimization (FinOps)
-- Monitoring and observability
-- System architecture
+- Infrastructure: Docker, CI/CD, Linux, Cloudflare, Tailscale, monitoring and observability
+- Code: Python, Flask, Django, JavaScript, HTML/CSS, SQL, Git
+- AI: prompt engineering, Claude Code, Codex, agent orchestration, MCP, agent-ready web surfaces
+- Operations: automation, system architecture, technical documentation, project management, cost optimization (FinOps)
 
 ## Projects
 
 ### Peptide Tracker
 
-Website for tracking peptide protocols with PWA support, push notifications, and inventory management.
+A Flask app for tracking peptide protocols, currently serving 58 users. PWA support, push notifications, and inventory management.
 
 Link: https://tracker.unclelyh.me
+
+### Creovia Tools
+
+Creovia's tools platform, owned from the beginning: the design, every module's launch, and the monthly release updates.
+
+Link: https://creovia.tools
+
+### unclelyh.me
+
+This site: a static, no-build-step personal site with an agent-ready surface: markdown negotiation, llms.txt, and browser-side WebMCP tools.
+
+Link: https://github.com/unclelyhme
 
 ### LYHMECommunity
 
@@ -90,7 +91,7 @@ Gaming community built around Discord and shared experiences.
 
 ### LYHMEHosting
 
-Hosted game servers and web servers in locations around the world.
+Hosted 200+ game and web servers across 9+ locations worldwide at peak.
 
 ### Unturned Tutorials
 

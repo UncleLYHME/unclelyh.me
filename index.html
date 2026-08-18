@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0d1117">
+    <meta name="theme-color" content="#0e0e10">
+    <meta name="color-scheme" content="dark">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Uncle LYHME - Systems Administrator and Developer. Founder of LYHME, Inc. Building tools and infrastructure that solve real problems.">
-    <meta name="author" content="Uncle LYHME">
+    <meta name="description" content="Morgan Nuttall (Uncle LYHME) - developer who builds apps and the infrastructure to run them. Docker at scale, CI/CD, and prompt engineering with Claude Code and Codex. Founder of LYHME, Inc.">
+    <meta name="author" content="Morgan Nuttall">
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Uncle LYHME - Systems Administrator | Developer">
-    <meta property="og:description" content="Systems Administrator and Developer. Founder of LYHME, Inc. Building tools and infrastructure that solve real problems.">
+    <meta property="og:title" content="Morgan Nuttall - Developer & Platform Engineer">
+    <meta property="og:description" content="I build apps and the infrastructure to run them. Docker at scale, CI/CD, and tools that solve real problems. Founder of LYHME, Inc.">
     <meta property="og:url" content="https://unclelyh.me">
+    <meta property="og:image" content="https://unclelyh.me/assets/img/avatar.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Uncle LYHME">
-    <meta name="twitter:description" content="Systems Administrator and Developer. Founder of LYHME, Inc.">
+    <meta name="twitter:title" content="Morgan Nuttall">
+    <meta name="twitter:description" content="Developer who builds apps and the infrastructure to run them. Founder of LYHME, Inc.">
 
-    <title>Uncle LYHME | Systems Administrator & Developer</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=21">
+    <title>Morgan Nuttall | Developer & Platform Engineer</title>
+    <link rel="stylesheet" href="assets/css/tokens.css?v=40">
+    <link rel="stylesheet" href="assets/css/layout.css?v=40">
+    <link rel="stylesheet" href="assets/css/components.css?v=40">
     <link rel="icon" href="./assets/img/avatar.png" type="image/png">
 
     <!-- Canonical URL -->
@@ -29,271 +33,398 @@
     <link rel="alternate" type="text/markdown" href="https://unclelyh.me/index.md">
     <link rel="api-catalog" href="https://unclelyh.me/.well-known/api-catalog">
     <link rel="describedby" href="https://unclelyh.me/.well-known/llms.txt">
-
-    <!-- Prevent theme flash -->
-    <script>
-        (function() {
-            const saved = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = saved || (prefersDark ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
-        })();
-    </script>
 </head>
 
 <body>
     <!-- Skip to Content -->
     <a href="#about" class="skip-link">Skip to content</a>
 
-    <!-- Contact Banner -->
-    <div class="banner">
-        Open to projects · <a href="#" class="js-ob-email" data-email-b64="aWFtbHlobWVAZ21haWwuY29t">Email me</a> or <a href="https://x.com/unclelyhme" target="_blank" rel="noopener noreferrer">DM on X</a>
-    </div>
+    <!-- Ambient glow + grain (decorative) -->
+    <div class="glow" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
 
-    <!-- Theme Toggle -->
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle theme">
-        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-    </button>
-
-    <main class="container">
-        <!-- Header Section -->
-        <header class="header">
-            <img src="./assets/img/avatar.png" alt="Uncle LYHME profile photo" class="avatar">
-            <div class="header-content">
-                <h1>Uncle LYHME</h1>
-                <p class="tagline">Father | Systems Administrator | Developer</p>
-            </div>
-            <nav class="social-links" aria-label="Social media links">
-                <a href="https://youtube.com/c/unclelyhme" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
-                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-                    </svg>
-                </a>
-                <a href="https://www.instagram.com/unclelyhme" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                </a>
-                <a href="https://x.com/unclelyhme" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" title="X (Twitter)">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                </a>
-                <a href="https://github.com/unclelyhme" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                </a>
-                <a href="https://discord.gg/deb5PtNr7k" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
-                        <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/>
-                    </svg>
-                </a>
+    <div class="frame">
+        <header class="site-head">
+            <a class="wordmark" href="#top">UNCLELYH<span class="tld">.ME</span></a>
+            <nav class="head-nav" aria-label="Sections">
+                <a href="#about">about</a>
+                <a href="#now">today</a>
+                <a href="#experience">work</a>
+                <a href="#skills">skills</a>
+                <a href="#projects">projects</a>
+                <a href="#links">contact</a>
+                <a href="#" id="print-resume" title="Print or save this page as a PDF resume">resume&nbsp;&#8595;</a>
             </nav>
         </header>
 
-        <hr class="divider">
-
-        <!-- About Section -->
-        <section class="section" id="about">
-            <h2>About Me</h2>
-            <p>
-                Father, gamer, Apple fanboy, and <span class="tooltip" tabindex="0">Systems Administrator<span class="tooltip-text">Someone who manages and maintains computer systems and servers</span></span> with a track record of delivering technical solutions
-                and building platforms from the ground up. I thrive in roles where I can bridge technical
-                execution with operational efficiency, whether it's building systems, leading teams, or
-                optimizing processes. Lately I've been loving programming and building tools that solve real problems.
-            </p>
-        </section>
-
-        <hr class="divider">
-
-        <!-- Now Section -->
-        <section class="section" id="now">
-            <h2>Right Now</h2>
-            <ul class="now-list">
-                <li>Spending time with family</li>
-                <li>Building a peptide tracker</li>
-                <li>Working on systems and tools at <span class="privacy-scribble" aria-label="private company"></span></li>
-            </ul>
-        </section>
-
-        <hr class="divider">
-
-        <!-- Experience Section -->
-        <section class="section" id="experience">
-            <h2>My Experience</h2>
-
-            <article class="entry">
-                <div class="entry-header">
-                    <h3>Systems Administrator</h3>
-                    <span class="date">2023 - Present</span>
+        <main id="top">
+            <!-- Hero -->
+            <section class="hero" id="about">
+                <p class="hero-eyebrow mono" aria-hidden="true">
+                    <span>developer &amp; platform engineer</span>
+                    <span class="live">uptime: since 2015</span>
+                </p>
+                <h1 class="hero-name">
+                    <span class="row"><span>Uncle</span></span>
+                    <span class="row"><span>LYHME</span></span>
+                </h1>
+                <p class="hero-tagline mono"><span class="real-name">Morgan Nuttall</span> &middot; father &middot; app developer &middot; infrastructure &amp; platform &middot; prompt engineer</p>
+                <div class="hero-about">
+                    <p><strong>I build things.</strong> Lately that means apps: shipping tools that solve real problems and actually get used. Under the hood I think like an infrastructure &amp; platform engineer: Docker at scale, CI/CD, and keeping systems boring in the best way.</p>
+                    <p>These days that includes AI: I'm a prompt engineer who works with Claude Code and Codex daily, and I build for agents as much as for people. This site is proof: it ships its own llms.txt and WebMCP tools.</p>
+                    <p>Father, gamer, and unapologetic Apple nerd. I started out keeping other people's systems alive; now I spend my days turning ideas into software.</p>
                 </div>
-                <p class="company"><span class="privacy-scribble" aria-label="private company"></span></p>
-                <ul>
-                    <li>Build internal tools and custom apps (maps, Excel diff tool, <span class="tooltip" tabindex="0">QR generator<span class="tooltip-text">Creates those square barcodes you scan with your phone</span></span>)</li>
-                    <li>Run the company's <span class="tooltip" tabindex="0">Docker<span class="tooltip-text">Software that packages apps into containers so they run the same everywhere</span></span> infrastructure nationwide</li>
-                    <li>Set up <span class="tooltip" tabindex="0">CI/CD<span class="tooltip-text">Continuous integration/deployment - automates testing and releasing code</span></span> and wrote all the systems docs</li>
-                    <li>Saved $70k/year by optimizing hosting</li>
+                <p class="status-badge"><span class="dot" aria-hidden="true"></span> open to new projects</p>
+                <ul class="hero-social" aria-label="Social media links">
+                    <li><a href="https://github.com/unclelyhme" target="_blank" rel="noopener noreferrer">github</a></li>
+                    <li><a href="https://x.com/unclelyhme" target="_blank" rel="noopener noreferrer">x</a></li>
+                    <li><a href="https://youtube.com/c/unclelyhme" target="_blank" rel="noopener noreferrer">youtube</a></li>
+                    <li><a href="https://www.instagram.com/unclelyhme" target="_blank" rel="noopener noreferrer">instagram</a></li>
+                    <li><a href="https://discord.gg/deb5PtNr7k" target="_blank" rel="noopener noreferrer">discord</a></li>
                 </ul>
-            </article>
+            </section>
 
-            <article class="entry">
-                <div class="entry-header">
-                    <h3>Founder & Owner</h3>
-                    <span class="date">2015 - Present</span>
+            <!-- Core switch: everything below draws power from here -->
+            <div class="switch" aria-hidden="true">
+                <div class="switch-face">
+                    <span class="switch-name">core-sw01</span>
+                    <span class="switch-note">48-port &middot; uplink: visitor &middot; power: nominal</span>
                 </div>
-                <p class="company">LYHME, Inc.</p>
-                <ul>
-                    <li>Started a <span class="tooltip" tabindex="0">game server<span class="tooltip-text">A computer that hosts multiplayer games so players can connect and play together</span></span> hosting company serving players in Asia, US, and Europe</li>
-                    <li>Handle <span class="tooltip" tabindex="0">servers<span class="tooltip-text">Computers that run 24/7 to host websites and apps</span></span>, websites, and community management</li>
-                    <li>Built and led a remote team</li>
-                </ul>
-            </article>
-
-            <article class="entry">
-                <div class="entry-header">
-                    <h3>Web Technician</h3>
-                    <span class="date">2022</span>
+                <div class="switch-ports">
+                    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
                 </div>
-                <p class="company">Charter One</p>
-                <ul>
-                    <li>Maintained 15+ school websites</li>
-                    <li>Redesigned sites and improved <span class="tooltip" tabindex="0">UX<span class="tooltip-text">User experience - how easy and enjoyable a website is to use</span></span></li>
-                    <li>Helped migrate American Leadership Academy to a multi-state platform</li>
-                </ul>
-                <div class="entry-links">
-                    <a href="https://alaschools.org" target="_blank" rel="noopener noreferrer" class="entry-link">ALA Schools &rarr;</a>
-                </div>
-            </article>
-
-            <article class="entry">
-                <div class="entry-header">
-                    <h3>Retail</h3>
-                    <span class="date">2021 - 2022</span>
-                </div>
-                <p class="company">Best Buy, Walmart</p>
-                <ul>
-                    <li>Customer service, inventory, online order fulfillment</li>
-                    <li>Team lead mentor program at Walmart</li>
-                </ul>
-            </article>
-        </section>
-
-        <hr class="divider">
-
-        <!-- Skills Section -->
-        <section class="section" id="skills">
-            <h2>My Skills</h2>
-            <div class="skills-list">
-                <span class="skill-tag tooltip" tabindex="0">Docker<span class="tooltip-text">Packages apps into containers so they run the same everywhere</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Python<span class="tooltip-text">Programming language great for automation and web apps</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Flask<span class="tooltip-text">Lightweight Python framework for building websites</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Django<span class="tooltip-text">Full-featured Python framework for building web applications</span></span>
-                <span class="skill-tag tooltip" tabindex="0">HTML<span class="tooltip-text">The structure and content of web pages</span></span>
-                <span class="skill-tag tooltip" tabindex="0">CSS<span class="tooltip-text">Styles and visual design for websites</span></span>
-                <span class="skill-tag tooltip" tabindex="0">JavaScript<span class="tooltip-text">Makes websites interactive and dynamic</span></span>
-                <span class="skill-tag tooltip" tabindex="0">SQL<span class="tooltip-text">Language for storing and querying data in databases</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Linux<span class="tooltip-text">Open-source operating system that powers most servers</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Windows<span class="tooltip-text">Microsoft's operating system for PCs and servers</span></span>
-                <span class="skill-tag tooltip" tabindex="0">macOS<span class="tooltip-text">Apple's operating system for Mac computers</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Git<span class="tooltip-text">Tracks changes to code and enables collaboration</span></span>
-                <span class="skill-tag tooltip" tabindex="0">CI/CD<span class="tooltip-text">Automates testing and deploying code changes</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Tailscale<span class="tooltip-text">VPN service that connects your devices securely over the internet</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Cloudflare<span class="tooltip-text">Service that protects and speeds up websites</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Automation<span class="tooltip-text">Making computers do repetitive tasks automatically</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Accounting<span class="tooltip-text">Tracking money, expenses, and financial records</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Scripting &amp; Automation<span class="tooltip-text">Builds scripts and workflows to automate repetitive operational tasks</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Project Management<span class="tooltip-text">Plans and coordinates technical work from kickoff to delivery</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Technical Documentation<span class="tooltip-text">Creates clear system, process, and runbook documentation</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Cost Optimization (FinOps)<span class="tooltip-text">Reduces infrastructure spend while maintaining performance and reliability</span></span>
-                <span class="skill-tag tooltip" tabindex="0">Monitoring &amp; Observability<span class="tooltip-text">Uses Prometheus, Grafana, and alerting to detect and troubleshoot issues quickly</span></span>
-                <span class="skill-tag tooltip" tabindex="0">System Architecture<span class="tooltip-text">Designs scalable and maintainable systems that support business growth</span></span>
             </div>
-        </section>
 
-        <hr class="divider">
+            <!-- The cable run: one cable from the switch down to every node -->
+            <div class="run" id="run">
+                <svg class="cable" id="cable" aria-hidden="true" preserveAspectRatio="none">
+                    <path class="base" d=""/>
+                    <path class="live" d=""/>
+                    <path class="pulse" d=""/>
+                </svg>
 
-        <!-- Projects Section -->
-        <section class="section" id="projects">
-            <h2>My Projects</h2>
+                <section class="node" id="now">
+                    <span class="port" aria-hidden="true"></span>
+                    <div class="node-head">
+                        <span class="unit">u-01</span>
+                        <h2>Today</h2>
+                        <span class="pwr" aria-hidden="true"><i></i>pwr</span>
+                        <span class="note">3 processes running</span>
+                    </div>
+                    <div class="node-body">
+                        <ul class="now-list">
+                            <li>Spending time with family</li>
+                            <li>Building a peptide tracker</li>
+                            <li>Working on systems and tools at Creovia</li>
+                        </ul>
+                    </div>
+                </section>
 
-            <article class="entry">
-                <div class="entry-header">
-                    <h3>Peptide Tracker</h3>
-                    <a href="https://tracker.unclelyh.me" target="_blank" rel="noopener noreferrer" class="link-arrow">tracker.unclelyh.me &rarr;</a>
-                </div>
-                <p>Website for tracking <span class="tooltip" tabindex="0">peptide<span class="tooltip-text">Small proteins used for health and wellness</span></span> protocols with <span class="tooltip" tabindex="0">PWA<span class="tooltip-text">Progressive web app - can be installed on your phone like a regular app</span></span> support, <span class="tooltip" tabindex="0">push notifications<span class="tooltip-text">Alerts that pop up on your phone even when the app is closed</span></span>, and inventory management.</p>
-            </article>
+                <section class="node" id="experience">
+                    <span class="port" aria-hidden="true"></span>
+                    <div class="node-head">
+                        <span class="unit">u-02</span>
+                        <h2>Work</h2>
+                        <span class="pwr" aria-hidden="true"><i></i>pwr</span>
+                        <span class="note">4 entries</span>
+                    </div>
+                    <div class="node-body">
+                        <article class="entry">
+                            <span class="company">Creovia</span>
+                            <div class="entry-detail">
+                                <h3>Systems Administrator</h3>
+                                <p class="role-sum">I own the infrastructure and internal tooling for a company operating nationwide.</p>
+                                <ul>
+                                    <li>Run the company's Docker infrastructure across the country: deployments, monitoring, and upgrades designed to stay boring</li>
+                                    <li>Own <a href="https://creovia.tools" target="_blank" rel="noopener noreferrer">creovia.tools</a> end to end: the design, every module's launch, and monthly release updates</li>
+                                    <li>Build internal tools with real daily users: interactive maps, an Excel diff tool, and QR-code workflows</li>
+                                    <li>Introduced CI/CD and wrote the systems documentation, so releases are repeatable and knowledge is shared instead of trapped in one head</li>
+                                    <li>Cut hosting spend by $70k per year through optimization</li>
+                                </ul>
+                            </div>
+                            <span class="date">2023 &ndash; now</span>
+                        </article>
+                        <article class="entry">
+                            <span class="company">LYHME, Inc.</span>
+                            <div class="entry-detail">
+                                <h3>Founder &amp; Owner</h3>
+                                <p class="role-sum">I founded a game-server hosting company and ran it end to end for nearly a decade.</p>
+                                <ul>
+                                    <li>Hosted 200+ game servers across 9+ locations in Asia, the US, and Europe</li>
+                                    <li>Owned the full operation: the server fleet, customer-facing websites, and community management</li>
+                                    <li>Built and led a fully remote team</li>
+                                </ul>
+                            </div>
+                            <span class="date">2015 &ndash; now</span>
+                        </article>
+                        <article class="entry">
+                            <span class="company">Charter One</span>
+                            <div class="entry-detail">
+                                <h3>Web Technician</h3>
+                                <p class="role-sum">I kept a portfolio of school websites healthy and helped a major platform migration land.</p>
+                                <ul>
+                                    <li>Maintained 15+ school websites, including redesigns and UX improvements</li>
+                                    <li>Helped migrate <a href="https://alaschools.org" target="_blank" rel="noopener noreferrer">American Leadership Academy</a> to a multi-state platform</li>
+                                </ul>
+                            </div>
+                            <span class="date">2022</span>
+                        </article>
+                        <article class="entry">
+                            <span class="company">Best Buy, Walmart</span>
+                            <div class="entry-detail">
+                                <h3>Retail</h3>
+                                <p class="role-sum">Customer-facing years that taught me service under pressure.</p>
+                                <ul>
+                                    <li>Customer service, inventory, and online order fulfillment</li>
+                                    <li>Selected for Walmart's team lead mentor program</li>
+                                </ul>
+                            </div>
+                            <span class="date">2021 &ndash; 2022</span>
+                        </article>
+                    </div>
+                </section>
 
-            <article class="entry">
-                <div class="entry-header">
-                    <h3>LYHMECommunity</h3>
-                    <span class="date">Closed</span>
-                </div>
-                <p>A gaming community bringing players together through <span class="tooltip" tabindex="0">Discord<span class="tooltip-text">A free chat app for voice, video, and text - popular with gamers</span></span> and shared experiences.</p>
-            </article>
+                <section class="node" id="skills">
+                    <span class="port" aria-hidden="true"></span>
+                    <div class="node-head">
+                        <span class="unit">u-03</span>
+                        <h2>Skills</h2>
+                        <span class="pwr" aria-hidden="true"><i></i>pwr</span>
+                        <span class="note">4 buses</span>
+                    </div>
+                    <div class="node-body">
+                        <dl>
+                            <div class="skill-row">
+                                <dt>infra</dt>
+                                <dd>Docker &middot; <span class="tooltip" tabindex="0">CI/CD<span class="tooltip-text">Automated pipelines that test and ship code without manual steps</span></span> &middot; Linux &middot; Cloudflare &middot; <span class="tooltip" tabindex="0">Tailscale<span class="tooltip-text">A zero-config VPN that links machines into one private network</span></span> &middot; monitoring &amp; <span class="tooltip" tabindex="0">observability<span class="tooltip-text">Metrics, logs, and alerts that show what systems are actually doing</span></span></dd>
+                            </div>
+                            <div class="skill-row">
+                                <dt>code</dt>
+                                <dd>Python &middot; Flask &middot; Django &middot; JavaScript &middot; HTML/CSS &middot; SQL &middot; Git</dd>
+                            </div>
+                            <div class="skill-row">
+                                <dt>ai</dt>
+                                <dd>prompt engineering &middot; Claude Code &middot; Codex &middot; agent orchestration &middot; <span class="tooltip" tabindex="0">MCP<span class="tooltip-text">An open protocol that lets AI assistants use tools and data sources</span></span> &middot; agent-ready web</dd>
+                            </div>
+                            <div class="skill-row">
+                                <dt>ops</dt>
+                                <dd>automation &middot; system architecture &middot; technical docs &middot; project management &middot; cost optimization</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </section>
 
-            <article class="entry">
-                <div class="entry-header">
-                    <h3>LYHMEHosting</h3>
-                    <span class="date">Closed</span>
-                </div>
-                <p>Ran <span class="tooltip" tabindex="0">game servers<span class="tooltip-text">Computers that host multiplayer games so players can connect and play together</span></span> and <span class="tooltip" tabindex="0">web servers<span class="tooltip-text">Computers that host websites and web applications</span></span> across the globe with locations worldwide.</p>
-            </article>
+                <section class="node" id="projects">
+                    <span class="port" aria-hidden="true"></span>
+                    <div class="node-head">
+                        <span class="unit">u-04</span>
+                        <h2>Projects</h2>
+                        <span class="pwr" aria-hidden="true"><i></i>pwr</span>
+                        <span class="note">5 mounted</span>
+                    </div>
+                    <div class="node-body">
+                        <div class="projects-grid">
+                            <article class="card">
+                                <div class="card-top">
+                                    <h3>Peptide Tracker</h3>
+                                    <a href="https://tracker.unclelyh.me" target="_blank" rel="noopener noreferrer" class="card-link">tracker.unclelyh.me &rarr;</a>
+                                </div>
+                                <p>A Flask app for tracking <span class="tooltip" tabindex="0">peptide<span class="tooltip-text">Small proteins used for health and wellness</span></span> protocols, currently serving 58 users. Installable as an app, with push notifications and inventory management.</p>
+                            </article>
+                            <article class="card">
+                                <div class="card-top">
+                                    <h3>Creovia Tools</h3>
+                                    <a href="https://creovia.tools" target="_blank" rel="noopener noreferrer" class="card-link">creovia.tools &rarr;</a>
+                                </div>
+                                <p>Creovia's tools platform, owned from the beginning: the design, every module's launch, and the monthly release updates.</p>
+                            </article>
+                            <article class="card">
+                                <div class="card-top">
+                                    <h3>unclelyh.me</h3>
+                                    <a href="https://github.com/unclelyhme" target="_blank" rel="noopener noreferrer" class="card-link">source &rarr;</a>
+                                </div>
+                                <p>This site: static, no build step, and agent-ready: markdown negotiation, <span class="tooltip" tabindex="0">llms.txt<span class="tooltip-text">A plain-text summary of a site written for large language models</span></span>, and browser-side <span class="tooltip" tabindex="0">WebMCP<span class="tooltip-text">Lets AI assistants call tools the page exposes, right in the browser</span></span> tools.</p>
+                            </article>
+                            <article class="card">
+                                <div class="card-top">
+                                    <h3>LYHMEHosting &amp; LYHMECommunity</h3>
+                                    <span class="card-status">closed</span>
+                                </div>
+                                <p>Ran 200+ game and web servers across 9+ locations worldwide at peak, plus the gaming community that grew around them.</p>
+                            </article>
+                            <article class="card">
+                                <div class="card-top">
+                                    <h3>Unturned Tutorials</h3>
+                                    <a href="https://youtube.com/c/unclelyhme" target="_blank" rel="noopener noreferrer" class="card-link">YouTube &rarr;</a>
+                                </div>
+                                <p>Video tutorials teaching server setup for <span class="tooltip" tabindex="0">Unturned<span class="tooltip-text">A free-to-play survival game on Steam</span></span>.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
 
-            <article class="entry">
-                <div class="entry-header">
-                    <h3>Unturned Tutorials</h3>
-                    <a href="https://youtube.com/c/unclelyhme" target="_blank" rel="noopener noreferrer" class="link-arrow">YouTube &rarr;</a>
-                </div>
-                <p>Video tutorials teaching server setup and configuration for <span class="tooltip" tabindex="0">Unturned<span class="tooltip-text">A free-to-play survival game on Steam</span></span>.</p>
-            </article>
-        </section>
+                <section class="node" id="links">
+                    <span class="port" aria-hidden="true"></span>
+                    <div class="node-head">
+                        <span class="unit">u-05</span>
+                        <h2>Contact</h2>
+                        <span class="pwr" aria-hidden="true"><i></i>pwr</span>
+                        <span class="note">6 ports open</span>
+                    </div>
+                    <div class="node-body">
+                        <p class="contact-big">Have a project? <a href="#" class="js-ob-email" data-email-b64="aWFtbHlobWVAZ21haWwuY29t">Plug in.</a></p>
+                        <p class="contact-note">Open to new projects, contract work, and interesting infrastructure or app roles. Email is the fastest way to reach me.</p>
+                        <ul class="contact-row">
+                            <li><a href="#" class="copy-email js-ob-email" data-email-b64="aWFtbHlobWVAZ21haWwuY29t">email</a></li>
+                            <li><a href="https://github.com/unclelyhme" target="_blank" rel="noopener noreferrer">github</a></li>
+                            <li><a href="https://x.com/unclelyhme" target="_blank" rel="noopener noreferrer">x</a></li>
+                            <li><a href="https://youtube.com/c/unclelyhme" target="_blank" rel="noopener noreferrer">youtube</a></li>
+                            <li><a href="https://www.instagram.com/unclelyhme" target="_blank" rel="noopener noreferrer">instagram</a></li>
+                            <li><a href="https://discord.gg/deb5PtNr7k" target="_blank" rel="noopener noreferrer">discord</a></li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </main>
 
-        <hr class="divider">
-
-        <!-- Links Section -->
-        <section class="section" id="links">
-            <h2>My Links</h2>
-            <ul class="link-list">
-                <li><a href="#" class="copy-email js-ob-email" data-email-b64="aWFtbHlobWVAZ21haWwuY29t">Email &rarr;</a></li>
-                <li><a href="https://youtube.com/c/unclelyhme" target="_blank" rel="noopener noreferrer">YouTube &rarr;</a></li>
-                <li><a href="https://www.instagram.com/unclelyhme" target="_blank" rel="noopener noreferrer">Instagram &rarr;</a></li>
-                <li><a href="https://x.com/unclelyhme" target="_blank" rel="noopener noreferrer">X (Twitter) &rarr;</a></li>
-                <li><a href="https://github.com/unclelyhme" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a></li>
-                <li><a href="https://discord.gg/deb5PtNr7k" target="_blank" rel="noopener noreferrer">Discord &rarr;</a></li>
-            </ul>
-        </section>
-
-        <!-- Footer -->
         <footer class="footer">
-            <p>&copy; <span id="year"></span> Uncle LYHME. All rights reserved.</p>
+            <span>&copy; <span id="year"></span> Morgan Nuttall</span>
         </footer>
-    </main>
+    </div>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="back-to-top" aria-label="Back to top" title="Back to top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
+    <!-- Chat: intercom-style assistant -->
+    <div class="chat-pop" id="chat-pop" role="dialog" aria-label="Chat with the LYHME assistant">
+        <div class="chat-head">
+            <img src="./assets/img/avatar.png" alt="">
+            <div>
+                <div class="chat-title">LYHME Assistant</div>
+                <div class="chat-sub">&#9679; online &middot; replies instantly</div>
+            </div>
+            <button class="chat-close" id="chat-close" aria-label="Close chat">&#x2715;</button>
+        </div>
+        <div class="chat-log" id="chat-log">
+            <div class="msg user"><p>hey, who is Uncle LYHME?</p></div>
+            <div class="msg bot"><p><span class="intro-name">Morgan Nuttall</span>, aka Uncle LYHME: father, app developer, and infrastructure &amp; platform engineer. He ships tools that solve real problems and keeps the systems underneath boring in the best way.</p></div>
+            <div class="msg user"><p>what's he up to right now?</p></div>
+            <div class="msg bot">
+                <ul class="now-list">
+                    <li>Spending time with family</li>
+                    <li>Building a peptide tracker</li>
+                    <li>Working on systems and tools at Creovia</li>
+                </ul>
+            </div>
+        </div>
+        <div class="chat-quick" id="chat-quick" aria-label="Quick questions">
+            <button type="button" data-q="today">today</button>
+            <button type="button" data-q="work">work</button>
+            <button type="button" data-q="skills">skills</button>
+            <button type="button" data-q="projects">projects</button>
+            <button type="button" data-q="contact">contact</button>
+        </div>
+    </div>
+    <button class="chat-launcher" id="chat-launcher" aria-label="Chat with the LYHME assistant" aria-expanded="false">
+        <img src="./assets/img/avatar.png" alt="">
+        <span class="ping" aria-hidden="true"></span>
     </button>
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
+    <!-- Print-only resume: classic single-column layout that ATS parsers read cleanly -->
+    <section class="print-resume" id="resume-doc">
+        <header>
+            <h1>Morgan Nuttall</h1>
+            <p class="r-title">Developer &amp; Platform Engineer &middot; Prompt Engineer</p>
+            <p class="r-contact"><span id="resume-email">see unclelyh.me</span> &middot; unclelyh.me &middot; github.com/unclelyhme &middot; known online as Uncle LYHME</p>
+        </header>
 
-    <script type="module" src="assets/js/main.js?v=21"></script>
+        <h2>Summary</h2>
+        <p>Developer who builds apps and the infrastructure to run them: Docker at scale, CI/CD, monitoring, and keeping systems boring in the best way. Prompt engineer working daily with Claude Code and Codex, building for AI agents as well as people. Founder of LYHME, Inc. Open to new projects, contract work, and infrastructure or app roles.</p>
+
+        <h2>Experience</h2>
+        <article>
+            <div class="r-when">2023 &ndash; Present</div>
+            <div class="r-what">
+                <h3>Systems Administrator, Creovia</h3>
+                <ul>
+                    <li>Run the company's Docker infrastructure nationwide: deployments, monitoring, and upgrades</li>
+                    <li>Own creovia.tools end to end: the design, every module's launch, and monthly release updates</li>
+                    <li>Build internal tools with daily users: interactive maps, an Excel diff tool, and QR-code workflows</li>
+                    <li>Introduced CI/CD and wrote the systems documentation</li>
+                    <li>Cut hosting spend by $70,000 per year through optimization</li>
+                </ul>
+                <p class="r-stack">Docker, Python, Flask, CI/CD, Linux, Cloudflare, Tailscale, monitoring</p>
+            </div>
+        </article>
+        <article>
+            <div class="r-when">2015 &ndash; Present</div>
+            <div class="r-what">
+                <h3>Founder &amp; Owner, LYHME, Inc.</h3>
+                <ul>
+                    <li>Founded a game-server hosting company and ran it end to end</li>
+                    <li>Hosted 200+ game servers across 9+ locations in Asia, the US, and Europe</li>
+                    <li>Owned the full operation: server fleet, customer-facing websites, and community management</li>
+                    <li>Built and led a fully remote team</li>
+                </ul>
+                <p class="r-stack">Linux, networking, game-server infrastructure, web hosting, community operations</p>
+            </div>
+        </article>
+        <article>
+            <div class="r-when">2022</div>
+            <div class="r-what">
+                <h3>Web Technician, Charter One</h3>
+                <ul>
+                    <li>Maintained 15+ school websites, including redesigns and UX improvements</li>
+                    <li>Helped migrate American Leadership Academy to a multi-state platform</li>
+                </ul>
+            </div>
+        </article>
+        <article>
+            <div class="r-when">2021 &ndash; 2022</div>
+            <div class="r-what">
+                <h3>Retail, Best Buy and Walmart</h3>
+                <ul>
+                    <li>Customer service, inventory, and online order fulfillment</li>
+                    <li>Selected for Walmart's team lead mentor program</li>
+                </ul>
+            </div>
+        </article>
+
+        <h2>Selected Projects</h2>
+        <ul>
+            <li><strong>Creovia Tools</strong> (creovia.tools): company tools platform owned from the beginning: design, module launches, and monthly release updates</li>
+            <li><strong>Peptide Tracker</strong> (tracker.unclelyh.me): Flask app serving 58 users, installable with push notifications and inventory management</li>
+            <li><strong>unclelyh.me</strong>: static, agent-ready personal site publishing llms.txt, markdown negotiation, and browser-side WebMCP tools</li>
+        </ul>
+
+        <h2>Skills</h2>
+        <ul>
+            <li><strong>Infrastructure:</strong> Docker, CI/CD, Linux, Cloudflare, Tailscale, monitoring and observability</li>
+            <li><strong>Code:</strong> Python, Flask, Django, JavaScript, HTML/CSS, SQL, Git</li>
+            <li><strong>AI:</strong> prompt engineering, Claude Code, Codex, agent orchestration, Model Context Protocol (MCP)</li>
+            <li><strong>Operations:</strong> automation, system architecture, technical documentation, project management, cost optimization</li>
+        </ul>
+
+        <div class="r-foot">
+            <div><span class="r-label">Contact</span> <span class="resume-email-slot">see unclelyh.me</span> &middot; unclelyh.me</div>
+            <div><span class="r-label">Online</span> known as Uncle LYHME &middot; github.com/unclelyhme &middot; x.com/unclelyhme &middot; youtube.com/c/unclelyhme</div>
+        </div>
+    </section>
+
+    <!-- Command palette -->
+    <div class="palette-overlay" id="palette" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
+        <div class="palette">
+            <div class="palette-input-row">
+                <span class="palette-sigil">&gt;</span>
+                <input type="text" id="palette-input" class="palette-input" placeholder="type a command or jump to a section…" autocomplete="off" spellcheck="false" aria-label="Command input">
+            </div>
+            <ul class="palette-list" id="palette-list" role="listbox"></ul>
+            <div class="palette-foot"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> run</span><span><kbd>esc</kbd> close</span></div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="assets/js/main.js?v=40"></script>
 </body>
 </html>
