@@ -13,7 +13,7 @@ This site publishes a small, truthful agent surface:
 - markdown negotiation for `/` via `index.md`
 - `Content-Signal` preferences in `robots.txt`
 - agent skills at `/.well-known/agent-skills/index.json`
-- browser-side WebMCP tools in `assets/js/main.js`
+- browser-side WebMCP tools in `assets/js/webmcp.js`
 
 ## Public machine-readable files
 

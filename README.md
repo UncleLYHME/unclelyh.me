@@ -32,7 +32,8 @@ Source for Uncle LYHME's personal website: a static HTML/CSS/JavaScript site wit
 
 ## Maintenance
 
-- When editing `assets/css/style.css` or `assets/js/main.js`, bump the query parameter versions in `index.html`.
+- Styles live in `assets/css/{tokens,layout,components}.css` (with `style.css` as an `@import` shim); scripts live in `assets/js/` (`main.js` entry, plus `chat`, `cable`, `palette`, `tooltips`, `webmcp`, `utils`). When editing any CSS/JS, bump the `?v=` query parameter versions in `index.html`.
+- The homepage is a single dark "datacenter" theme: sections are rack units fed by per-section SVG patch cables (`assets/js/cable.js`) from the `core-sw01` switch panel, and the intro lives in an Intercom-style chat popup (`assets/js/chat.js`, quick-reply buttons only).
 - Keep `llms.txt` and `.well-known/llms.txt` identical.
 - Do not commit deployment credentials, private notes, generated auth files, or machine-specific config.
 
