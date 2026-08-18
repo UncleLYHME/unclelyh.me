@@ -5,6 +5,7 @@ summary: Timeline of notable changes in my-website.
 # Changelog
 
 ## 2026-08-18 — Datacenter Redesign: Chat Greeter + Rack Units
+- Updated the deployment Compose to build directly from the repository Dockerfile on Coolify's managed network, while keeping the host bind configurable and loopback-safe by default.
 - Replaced the terminal aesthetic with a committed single dark "datacenter" theme: phosphor-green accent with amber activity LEDs, Archivo variable display type (self-hosted, `assets/fonts/`), ambient glow + grain backdrop.
 - Hero now leads with the big two-row name, real name reveal (Morgan Nuttall), first-person about, "open to new projects" status, and social links; employer un-redacted to Creovia across the site and markdown mirrors.
 - Sections are rack units (u-01…u-05: today/work/skills/projects/contact), each fed by its own colored SVG patch cable from a `core-sw01` switch panel whose plugged ports blink in the cable's color (unplugged ports stay dark). Cables energize with scroll and each U flips its PWR LED when its line lands (`assets/js/cable.js`); reduced motion renders everything lit.

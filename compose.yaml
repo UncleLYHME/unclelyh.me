@@ -7,9 +7,15 @@ services:
     restart: unless-stopped
     ports:
       - "${UNCLELYHME_BIND:-127.0.0.1}:8082:80"
+    networks:
+      - coolify
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ >/dev/null 2>&1 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 10s
+
+networks:
+  coolify:
+    external: true
