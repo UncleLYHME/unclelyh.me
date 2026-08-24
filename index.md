@@ -67,6 +67,12 @@ Customer-facing years that taught me service under pressure.
 
 ## Projects
 
+### Party Blobs
+
+A couch-and-phone party game for 2–8 players. One or two local players use controllers or a keyboard on the big screen, while everyone else joins by phone with a room code to battle and steal flags.
+
+Link: https://partyblobs.unclelyh.me/
+
 ### Peptide Tracker
 
 A Flask app for tracking peptide protocols, currently serving 58 users. PWA support, push notifications, and inventory management.

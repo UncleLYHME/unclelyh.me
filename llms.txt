@@ -26,6 +26,7 @@ Personal portfolio website for Morgan Nuttall, known online as Uncle LYHME (deve
 
 ## Key Links
 - Site: https://unclelyh.me
+- Party Blobs project: https://partyblobs.unclelyh.me/
 - Peptide Tracker project: https://tracker.unclelyh.me
 - GitHub: https://github.com/unclelyhme
 - X: https://x.com/unclelyhme

@@ -161,6 +161,17 @@
     transition: background 0.2s var(--ease);
 }
 .card:hover { background: var(--bg-elev); }
+.card--featured {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--line, var(--accent)) 12%, var(--bg)),
+        var(--bg) 62%);
+    box-shadow: inset 3px 0 0 var(--line, var(--accent));
+}
+.card--featured:hover {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--line, var(--accent)) 18%, var(--bg-elev)),
+        var(--bg-elev) 62%);
+}
 /* odd card count: let the last card fill the row instead of leaving a dead cell */
 .card:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .card-top {
