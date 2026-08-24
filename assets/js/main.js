@@ -6,7 +6,7 @@ import { setCurrentYear } from './utils.js';
 import { initTooltips } from './tooltips.js';
 import { initWebMcp } from './webmcp.js';
 import { initPalette } from './palette.js';
-import { initChat } from './chat.js?v=41';
+import { initChat } from './chat.js?v=42';
 import { initCable } from './cable.js';
 
 let toastTimer = null;

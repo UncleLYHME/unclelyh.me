@@ -7,7 +7,7 @@ summary: Timeline of notable changes in my-website.
 ## 2026-08-24 — Feature Party Blobs
 - Added Party Blobs as the lead project card with a live link and a restrained featured treatment that fits the datacenter theme.
 - Updated the project count, assistant reply, print resume, markdown mirror, and both LLM metadata files with the couch-and-phone party game.
-- Bumped CSS and JavaScript cache versions to `v=41`.
+- Bumped CSS and JavaScript cache versions to `v=42`.
 
 ## 2026-08-18 — Datacenter Redesign: Chat Greeter + Rack Units
 - Updated the deployment Compose to build directly from the repository Dockerfile on Coolify's managed network, while keeping the host bind configurable and loopback-safe by default.
