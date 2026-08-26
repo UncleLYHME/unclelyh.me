@@ -4,6 +4,10 @@ summary: Timeline of notable changes in my-website.
 
 # Changelog
 
+## 2026-08-25 — Add Scripture Index
+- Added The Scripture Index Project to the live project rack, print resume, assistant project reply, markdown mirror, and machine-readable discovery files.
+- Advanced static asset cache revisions to `v=44`.
+
 ## 2026-08-24 — Feature Party Blobs
 - Added Party Blobs as the lead project card with a live link and a restrained featured treatment that fits the datacenter theme.
 - Updated the project count, assistant reply, print resume, markdown mirror, and both LLM metadata files with the couch-and-phone party game.

@@ -52,7 +52,7 @@ function buildAnswers({ onCopyEmail }) {
             question: 'what has he built?',
             run: () => {
                 scrollToId('projects');
-                return 'Party Blobs, a couch-and-phone party game for 2–8 players; Creovia Tools, which he has led from design to every module launch; a peptide tracker with 58 users; and this site. Let me show you more. Scrolling down to the Projects section.';
+                return 'Party Blobs, a couch-and-phone party game for 2–8 players; the Scripture Index, a passage-first reference that organizes reviewed media verse by verse; Creovia Tools, which he has led from design to every module launch; a peptide tracker with 58 users; and this site. Let me show you more. Scrolling down to the Projects section.';
             },
         },
         contact: {

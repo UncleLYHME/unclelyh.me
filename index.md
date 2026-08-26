@@ -73,6 +73,12 @@ A couch-and-phone party game for 2–8 players. One or two local players use con
 
 Link: https://partyblobs.unclelyh.me/
 
+### The Scripture Index Project
+
+A passage-first reference for studying religious texts. It organizes reviewed media by book, chapter, verse, topic, and author, then links back to every original source.
+
+Link: https://scripture-tracker.unclelyh.me/
+
 ### Peptide Tracker
 
 A Flask app for tracking peptide protocols, currently serving 58 users. PWA support, push notifications, and inventory management.
