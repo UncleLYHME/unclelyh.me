@@ -261,6 +261,7 @@
         var ignoreUntil = 0;
         document.addEventListener('keydown', function (e) {
             if ($('stage-type').classList.contains('hidden')) return;
+            if (e.target === $('type-catcher')) return; // input's own handler covers it
             if (e.timeStamp < ignoreUntil) { e.preventDefault(); return; }
             var fin = $('final-input'), qi = document.activeElement;
             if (qi && (qi === fin || qi.tagName === 'BUTTON')) return;
