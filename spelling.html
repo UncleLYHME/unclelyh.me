@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0e0e10">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="People keep spelling LYHME wrong. Type it, pass the exam, earn your certificate.">
+    <meta name="author" content="Morgan Nuttall">
+    <title>How to Spell LYHME | Uncle LYHME</title>
+    <link rel="stylesheet" href="assets/css/tokens.css?v=44">
+    <link rel="stylesheet" href="assets/css/layout.css?v=44">
+    <link rel="stylesheet" href="assets/css/components.css?v=44">
+    <link rel="icon" href="./assets/img/avatar.png" type="image/png">
+    <link rel="canonical" href="https://unclelyh.me/spelling.html">
+    <style>
+        /* page-scoped styles — uses site tokens */
+        .sp-wrap { max-width: 720px; margin: 0 auto; }
+        .sp-head { text-align: center; padding: 3rem 0 1.5rem; }
+        .sp-head .eyebrow { color: var(--accent-ink); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; }
+        .sp-head h1 { font-size: clamp(2rem, 5vw, 3rem); margin: .5rem 0 .25rem; }
+        .sp-head p { color: var(--fg-dim); max-width: 34rem; margin: 0 auto; }
+
+        .stage { background: var(--bg-elev); border: 1px solid var(--rule-strong); border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; }
+
+        /* typing test */
+        .letter-row { display: flex; justify-content: center; gap: .6rem; margin: 1.25rem 0; }
+        .lbox { width: clamp(3rem, 9vw, 4.2rem); height: clamp(3.4rem, 10vw, 4.8rem); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: clamp(1.8rem, 6vw, 2.6rem); font-weight: 700; letter-spacing: .05em; background: var(--bg-inset); border: 1px solid var(--rule-strong); border-radius: 10px; color: var(--fg); transition: border-color .12s, box-shadow .12s, transform .12s; }
+        .lbox.cursor { border-color: var(--ring); box-shadow: 0 0 14px var(--glow); transform: translateY(-2px); }
+        .lbox.ok { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 14px var(--glow); }
+        .lbox.bad { border-color: #e05252; color: #e05252; box-shadow: 0 0 14px rgba(224,82,82,.25); animation: shake .25s; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+        .runs { display: flex; justify-content: center; gap: .5rem; margin-top: 1rem; }
+        .run-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--rule-strong); transition: background .3s, box-shadow .3s; }
+        .run-dot.done { background: var(--accent); box-shadow: 0 0 8px var(--glow); }
+        .hint { text-align: center; color: var(--fg-faint); font-size: .85rem; margin-top: .75rem; min-height: 1.2em; }
+        .hint.good { color: var(--accent-ink); }
+        .hint.err { color: #e05252; }
+        .type-catcher { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; }
+
+        /* quiz */
+        .quiz-q { text-align: center; font-size: 1.05rem; color: var(--fg-dim); margin: 1.25rem 0 .75rem; }
+        .quiz-q:first-of-type { margin-top: 0; }
+        .quiz-q b { color: var(--fg); }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; max-width: 460px; margin: 0 auto; }
+        @media (max-width: 480px) { .quiz-options { grid-template-columns: 1fr; } }
+        .opt { padding: .8rem; font-family: var(--font-mono); font-size: 1.05rem; letter-spacing: .12em; background: var(--bg-inset); border: 1px solid var(--rule-strong); border-radius: 8px; color: var(--fg); cursor: pointer; transition: border-color .15s, background .15s; }
+        .opt:hover:not(:disabled) { border-color: var(--ring); }
+        .opt.correct { border-color: var(--accent); background: rgba(47,220,110,.12); }
+        .opt.wrong { border-color: #e05252; background: rgba(224,82,82,.1); opacity: .7; }
+
+        /* final typed answer */
+        .final-input { width: 100%; font-family: var(--font-mono); font-size: 1.4rem; letter-spacing: .2em; text-align: center; padding: .9rem; background: var(--bg-inset); border: 1px solid var(--rule-strong); border-radius: 8px; color: var(--fg); outline: none; }
+        .final-input:focus { border-color: var(--ring); box-shadow: 0 0 0 3px var(--glow); }
+        .final-input.ok { border-color: var(--accent); color: var(--accent); }
+        .final-input.bad { border-color: #e05252; animation: shake .3s; }
+
+        button { font-family: inherit; font-size: .95rem; padding: .7rem 1.4rem; border-radius: 8px; border: 1px solid var(--rule-strong); background: var(--bg-inset); color: var(--fg); cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+        button:hover:not(:disabled) { border-color: var(--ring); box-shadow: 0 0 12px var(--glow); }
+        button.primary { border-color: var(--accent); color: var(--accent-ink); }
+        button.primary:hover { background: rgba(47,220,110,.1); }
+        .sp-btns { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.25rem; }
+
+        /* certificate */
+        .cert { display: none; text-align: center; border: 3px double var(--accent); border-radius: 12px; padding: 2.5rem 1.5rem; background: var(--bg-inset); box-shadow: 0 0 40px var(--glow); animation: certIn .6s var(--ease); }
+        .cert.show { display: block; }
+        @keyframes certIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
+        .cert .seal { font-size: 3rem; }
+        .cert h2 { margin: .5rem 0; font-size: 1.6rem; }
+        .cert .cert-line { color: var(--fg-dim); margin: .35rem 0; }
+        .cert .cert-name { font-size: 2rem; font-weight: 800; color: var(--accent); margin: .75rem 0; letter-spacing: .04em; }
+        .cert .cert-word { font-size: 1.5rem; font-weight: 800; letter-spacing: .12em; color: var(--fg); margin: .5rem 0; }
+        .cert .cert-sig { margin-top: 2rem; display: flex; flex-direction: column; align-items: center; gap: .25rem; }
+        .cert .sig-script { font-size: 1.7rem; font-style: italic; color: var(--fg); font-family: 'Snell Roundhand', 'Segoe Script', 'Brush Script MT', cursive; transform: rotate(-4deg); }
+        .cert .sig-rule { width: 220px; border-top: 1px solid var(--rule-strong); }
+        .cert .sig-title { font-size: .75rem; letter-spacing: .1em; color: var(--fg-faint); text-transform: uppercase; }
+        .cert .cert-date { font-size: .85rem; color: var(--fg-dim); margin-top: 1rem; }
+        .cert-actions { margin-top: 1.5rem; }
+
+        .hidden { display: none !important; }
+        .sp-foot { text-align: center; padding: 2rem 0 4rem; color: var(--fg-faint); font-size: .85rem; }
+        .sp-foot a { color: var(--accent-ink); }
+        #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+
+        /* print: certificate only */
+        @media print {
+            body > *:not(.frame), .site-head, .sp-foot, .glow, .grain, #confetti-canvas { display: none !important; }
+            .frame > main > *:not(.cert) { display: none !important; }
+            .cert { display: block !important; box-shadow: none; border-color: #1a7a3c; background: #fff; color: #111; }
+            .cert h2, .cert .cert-name, .cert .cert-word, .cert .seal, .cert .sig-script { color: #111; text-shadow: none; }
+            .cert .cert-line, .cert .cert-date, .cert .sig-title { color: #444; }
+            .cert .sig-rule { border-top-color: #999; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glow" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+    <div class="frame">
+        <header class="site-head">
+            <a class="wordmark" href="/">UNCLELYH<span class="tld">.ME</span></a>
+            <nav class="head-nav" aria-label="Sections">
+                <a href="/">home</a>
+            </nav>
+        </header>
+
+        <main class="sp-wrap">
+            <div class="sp-head">
+                <p class="eyebrow mono">public service announcement</p>
+                <h1>It's <span style="color:var(--accent)">LYHME</span></h1>
+                <p>People keep spelling it wrong. Type it three times, pass the exam, spell it one last time, and you're certified.</p>
+            </div>
+
+            <!-- Step 1: typing test, 3 clean runs -->
+            <section class="stage" id="stage-type" aria-labelledby="type-h">
+                <h2 id="type-h" class="quiz-q" style="margin-top:0">Type the word. <b>3 perfect runs.</b> Green means you get it. Red means you don't yet.</h2>
+                <div class="letter-row" id="letter-row" aria-label="LYHME"></div>
+                <input class="type-catcher" id="type-catcher" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type LYHME">
+                <div class="runs" aria-hidden="true">
+                    <span class="run-dot" id="run-1"></span>
+                    <span class="run-dot" id="run-2"></span>
+                    <span class="run-dot" id="run-3"></span>
+                </div>
+                <p class="hint" id="type-hint">Click the letters or just start typing. The H is not optional.</p>
+            </section>
+
+            <!-- Step 2: quiz -->
+            <section class="stage hidden" id="stage-quiz" aria-labelledby="quiz-h">
+                <h2 id="quiz-h" class="quiz-q" style="margin-top:0">Pop quiz.</h2>
+
+                <p class="quiz-q">1. Which is the <b>correct</b> spelling?</p>
+                <div class="quiz-options" id="quiz-options-1" role="group" aria-label="Question 1 choices"></div>
+
+                <p class="quiz-q">2. Which of these is a <b>wrong</b> way to spell it?</p>
+                <div class="quiz-options" id="quiz-options-2" role="group" aria-label="Question 2 choices"></div>
+
+                <p class="hint" id="quiz-hint"></p>
+            </section>
+
+            <!-- Step 3: final answer -->
+            <section class="stage hidden" id="stage-final" aria-labelledby="final-h">
+                <h2 id="final-h" class="quiz-q" style="margin-top:0">Last one. How do you spell it?</h2>
+                <p class="hint" style="margin-top:0">In ALL CAPS. Respect the word.</p>
+                <input class="final-input" id="final-input" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="?" aria-label="Spell the word in all caps">
+                <p class="hint" id="final-hint"></p>
+                <div class="sp-btns">
+                    <button id="btn-final">Submit</button>
+                </div>
+            </section>
+
+            <!-- Certificate -->
+            <section class="cert" id="cert" aria-labelledby="cert-h" aria-hidden="true">
+                <div class="seal" aria-hidden="true">&#127942;</div>
+                <h2 id="cert-h">You did it!</h2>
+                <p class="cert-line">This certifies that you can correctly spell</p>
+                <p class="cert-word">LYHME</p>
+                <p class="cert-line">with zero (0) vowels harmed and one (1) very silent H.</p>
+                <p class="cert-line" style="margin-top:1rem">You are hereby authorized to correct strangers on the internet.</p>
+                <div class="cert-sig">
+                    <span class="sig-script">Morgan Nuttall</span>
+                    <span class="sig-rule" aria-hidden="true"></span>
+                    <span class="sig-title">Uncle LYHME &middot; the one who spells it right</span>
+                </div>
+                <p class="cert-date" id="cert-date"></p>
+                <div class="cert-actions">
+                    <button class="primary" id="btn-print">Print / save certificate</button>
+                    <button id="btn-again">Certify someone else</button>
+                </div>
+            </section>
+
+            <p class="sp-foot mono"><a href="/">&larr; unclelyh.me</a></p>
+        </main>
+    </div>
+
+    <script>
+    (function () {
+        'use strict';
+        var WORD = 'LYHME';
+        var $ = function (id) { return document.getElementById(id); };
+        var boxes = [];
+
+        // build letter boxes
+        WORD.split('').forEach(function () {
+            var b = document.createElement('div');
+            b.className = 'lbox';
+            b.textContent = '\u00A0';
+            $('letter-row').appendChild(b);
+            boxes.push(b);
+        });
+
+        // typing test
+        var pos = 0, runs = 0, runDots = [$('run-1'), $('run-2'), $('run-3')], typeHint = $('type-hint');
+
+        function resetRun() {
+            pos = 0;
+            boxes.forEach(function (b) {
+                b.className = 'lbox';
+                b.textContent = '\u00A0';
+            });
+            boxes[0].classList.add('cursor');
+        }
+
+        function advanceRun() {
+            runDots[runs].classList.add('done');
+            runs++;
+            if (runs >= 3) {
+                runs = 4; // lock input while transitioning
+                typeHint.className = 'hint good';
+                typeHint.textContent = 'Three for three. You might actually have this. Pop quiz time.';
+                setTimeout(startQuiz, 900);
+            } else {
+                typeHint.className = 'hint good';
+                typeHint.textContent = 'Clean run. ' + (3 - runs) + ' to go.';
+                ignoreUntil = performance.now() + 420;
+                setTimeout(resetRun, 400);
+            }
+        }
+
+        function onKey(e) {
+            if (e.repeat) return;
+            if (runs >= 3 || pos >= WORD.length) return;
+            if (e.key === 'Backspace' && pos > 0) {
+                pos--;
+                boxes[pos].className = 'lbox cursor';
+                boxes[pos].textContent = '\u00A0';
+                return;
+            }
+            if (e.key.length !== 1) return;
+            var ch = e.key.toUpperCase();
+            if (runs >= 3 || pos >= WORD.length) return; // re-check after async work above
+            var box = boxes[pos];
+            box.classList.remove('cursor');
+            if (ch === WORD[pos]) {
+                box.classList.add('ok');
+                box.textContent = ch;
+                pos++;
+                if (pos >= WORD.length) {
+                    advanceRun();
+                } else {
+                    boxes[pos].classList.add('cursor');
+                }
+            } else {
+                box.classList.add('bad');
+                box.textContent = ch;
+                typeHint.className = 'hint err';
+                typeHint.textContent = ch === 'H' ? 'No H there. The H comes third. Look at the boxes.' :
+                    ch === 'I' ? 'No "I". This is not Lyme disease.' :
+                    'Not that letter. Green is the goal.';
+                setTimeout(function () {
+                    if (pos < WORD.length && boxes[pos] === box) {
+                        box.textContent = '\u00A0';
+                        box.className = 'lbox cursor';
+                    }
+                }, 350);
+            }
+        }
+
+        var ignoreUntil = 0;
+        document.addEventListener('keydown', function (e) {
+            if ($('stage-type').classList.contains('hidden')) return;
+            if (e.timeStamp < ignoreUntil) { e.preventDefault(); return; }
+            var fin = $('final-input'), qi = document.activeElement;
+            if (qi && (qi === fin || qi.tagName === 'BUTTON')) return;
+            onKey(e);
+        });
+        $('letter-row').addEventListener('click', function () { $('type-catcher').focus(); });
+        $('type-catcher').addEventListener('keydown', onKey);
+        boxes[0].classList.add('cursor');
+
+        // quiz
+        function shuffle(a) {
+            for (var i = a.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var t = a[i]; a[i] = a[j]; a[j] = t;
+            }
+            return a;
+        }
+        var q1Answered = false, q2Answered = false;
+        var quizHint = $('quiz-hint');
+
+        function buildOptions(hostId, choices, correct, isWrongPick) {
+            var host = $(hostId);
+            host.innerHTML = '';
+            shuffle(choices).forEach(function (word) {
+                var b = document.createElement('button');
+                b.className = 'opt';
+                b.textContent = word;
+                b.addEventListener('click', function () {
+                    if (b.disabled) return;
+                    var hit = isWrongPick ? (word !== correct) : (word === correct);
+                    if (hit) {
+                        b.classList.add('correct');
+                        b.disabled = true;
+                        if (hostId === 'quiz-options-1') q1Answered = true; else q2Answered = true;
+                        if (q1Answered && q2Answered) {
+                            quizHint.className = 'hint good';
+                            quizHint.textContent = 'Perfect score. One last check below.';
+                            setTimeout(function () {
+                                $('stage-quiz').classList.add('hidden');
+                                $('stage-final').classList.remove('hidden');
+                                $('final-input').focus();
+                            }, 900);
+                        }
+                    } else {
+                        b.classList.add('wrong');
+                        b.disabled = true;
+                        quizHint.className = 'hint err';
+                        quizHint.textContent = isWrongPick
+                            ? 'That one is actually correct. Pick a fake.'
+                            : 'That is how the rest of the internet spells it. Wrong.';
+                    }
+                });
+                host.appendChild(b);
+            });
+        }
+
+        function startQuiz() {
+            $('stage-type').classList.add('hidden');
+            $('stage-quiz').classList.remove('hidden');
+            buildOptions('quiz-options-1', ['LYHME', 'LHYME', 'LYME', 'LIME'], 'LYHME', false);
+            buildOptions('quiz-options-2', ['LYHME', 'LHYME', 'LHIME', 'LYHME.'], 'LYHME', true);
+        }
+
+        // final typed answer — must be ALL CAPS
+        var finalTries = 0;
+        function checkFinal() {
+            var input = $('final-input');
+            var val = input.value.trim();
+            if (!val) return;
+            finalTries++;
+            var hint = $('final-hint');
+            if (val === WORD) {
+                input.classList.remove('bad');
+                input.classList.add('ok');
+                hint.className = 'hint good';
+                hint.textContent = 'LOUD AND CORRECT.';
+                setTimeout(finish, 700);
+            } else if (val.toUpperCase() === WORD && val !== WORD) {
+                input.classList.remove('bad');
+                void input.offsetWidth;
+                input.classList.add('bad');
+                hint.className = 'hint err';
+                hint.textContent = 'Spelling is right, volume is wrong. ALL CAPS.';
+            } else {
+                input.classList.remove('bad');
+                void input.offsetWidth;
+                input.classList.add('bad');
+                hint.className = 'hint err';
+                hint.textContent = finalTries >= 2 ? 'Five letters. L, Y, H, M, E. You just typed it three times.' : 'Not quite. ALL CAPS.';
+            }
+        }
+        $('btn-final').addEventListener('click', checkFinal);
+        $('final-input').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') checkFinal();
+        });
+
+        // finish: confetti + certificate
+        function finish() {
+            $('stage-final').classList.add('hidden');
+            $('cert-date').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            $('cert').classList.add('show');
+            $('cert').setAttribute('aria-hidden', 'false');
+            if ($('cert').scrollIntoView) $('cert').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            confetti();
+        }
+
+        $('btn-print').addEventListener('click', function () { window.print(); });
+
+        $('btn-again').addEventListener('click', function () {
+            $('cert').classList.remove('show');
+            $('cert').setAttribute('aria-hidden', 'true');
+            runs = 0; pos = 0; finalTries = 0; q1Answered = false; q2Answered = false;
+            runDots.forEach(function (d) { d.classList.remove('done'); });
+            $('final-input').value = '';
+            $('final-input').className = 'final-input';
+            ['type-hint', 'quiz-hint', 'final-hint'].forEach(function (h) {
+                $(h).textContent = '';
+                $(h).className = 'hint';
+            });
+            $('type-hint').textContent = 'Click the letters or just start typing. The H is not optional.';
+            resetRun();
+            $('stage-final').classList.add('hidden');
+            $('stage-quiz').classList.add('hidden');
+            $('stage-type').classList.remove('hidden');
+        });
+
+        // confetti (lightweight canvas)
+        function confetti() {
+            var canvas = $('confetti-canvas');
+            var ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            var colors = ['#2fdc6e', '#4be584', '#ffb224', '#e9efe9', '#39413a'];
+            var parts = [];
+            for (var i = 0; i < 160; i++) {
+                parts.push({
+                    x: Math.random() * canvas.width,
+                    y: -20 - Math.random() * canvas.height * 0.5,
+                    w: 6 + Math.random() * 6,
+                    h: 8 + Math.random() * 8,
+                    vy: 2.2 + Math.random() * 3,
+                    vx: -1.5 + Math.random() * 3,
+                    rot: Math.random() * Math.PI,
+                    vr: (-0.5 + Math.random()) * 0.25,
+                    c: colors[Math.floor(Math.random() * colors.length)]
+                });
+            }
+            var start = null;
+            function frame(ts) {
+                if (!start) start = ts;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                parts.forEach(function (p) {
+                    p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot);
+                    ctx.fillStyle = p.c;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+                });
+                if (ts - start < 4200) requestAnimationFrame(frame);
+                else ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            requestAnimationFrame(frame);
+        }
+    })();
+    </script>
+</body>
+</html>
