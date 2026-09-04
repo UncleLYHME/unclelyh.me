@@ -112,18 +112,22 @@
             .cert-paper { box-shadow: none; background: #fff; }
             /* zero page margins so the browser prints no URL/date footer */
             @page { margin: 0; size: letter; }
-            html, body { background: #fff; overflow: visible; }
-            body { padding: 0 !important; margin: 0 !important; }
-            /* one page exactly: fixed height, everything positioned inside it */
+            html, body { background: #fff; overflow: visible; margin: 0 !important; padding: 0 !important; }
+            /* one page exactly: exactly the page box height (100vh is the
+               viewport, which in print can exceed one page — use page size) */
             .cert { max-width: none; }
             .cert-paper {
                 border-radius: 0;
-                height: 100vh;
+                height: 10.5in;           /* letter page minus nothing; @page margin is 0 */
+                max-height: 10.5in;
+                overflow: hidden;
                 box-sizing: border-box;
                 display: flex;
                 flex-direction: column;
                 page-break-after: avoid;
                 break-after: avoid;
+                page-break-inside: avoid;
+                break-inside: avoid;
             }
             .cert-inner { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 3rem 3rem 0; }
             /* sig + seal in normal flow (no absolute positioning across a page break) */
@@ -410,7 +414,7 @@
             $('btn-submit-quiz').classList.remove('hidden');
             q2Set = new Set();
             buildOptions('quiz-options-1', ['LYHME', 'LHYME', 'LYME', 'LIME'], 'LYHME', false, function (w) { q1Answer = w; });
-            buildOptions('quiz-options-2', ['LYHME', 'LHYME', 'LHIME', 'LYHME.'], 'LYHME', true, function () { return q2Set; });
+            buildOptions('quiz-options-2', ['LYHME', 'LHYME', 'LHIME', 'LYMHE'], 'LYHME', true, function () { return q2Set; });
         }
 
         // grade everything on submit
