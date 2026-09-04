@@ -4,6 +4,7 @@
 .env
 .env.*
 CLAUDE.md
+AGENTS.md
 node_modules/
 dist/
 build/
@@ -11,3 +12,10 @@ build/
 .vscode/
 .idea/
 *.log
+nginx/
+compose.yaml
+Dockerfile
+.dockerignore
+README.md
+CHANGELOG.md
+LICENSE
