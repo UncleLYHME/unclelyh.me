@@ -29,6 +29,20 @@
         .lbox.cursor { border-color: var(--ring); box-shadow: 0 0 14px var(--glow); transform: translateY(-2px); }
         .lbox.ok { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 14px var(--glow); }
         .lbox.bad { border-color: #e05252; color: #e05252; box-shadow: 0 0 14px rgba(224,82,82,.25); animation: shake .25s; }
+        /* hidden word: letters blacked out until the test starts */
+        .lbox.hidden-letter { color: transparent; background: #050605; border-color: #050605; }
+        .lbox.hidden-letter::after { content: '?'; color: #232823; font-size: .55em; }
+        @keyframes revealBox {
+            0% { color: transparent; background: #050605; border-color: #050605; transform: scale(.9); }
+            45% { transform: scale(1.08); }
+            100% { color: var(--fg); background: var(--bg-inset); border-color: var(--rule-strong); transform: scale(1); }
+        }
+        .lbox.reveal { animation: revealBox .45s var(--ease) both; }
+        @keyframes blackoutBox {
+            from { color: var(--fg); background: var(--bg-inset); border-color: var(--rule-strong); }
+            to { color: transparent; background: #050605; border-color: #050605; }
+        }
+        .lbox.blackout { animation: blackoutBox .3s var(--ease) both; }
         @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
         .runs { display: flex; justify-content: center; gap: .5rem; margin-top: 1rem; }
         .run-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--rule-strong); transition: background .3s, box-shadow .3s; }
@@ -246,14 +260,42 @@
 
         // typing test
         var pos = 0, runs = 0, runDots = [$('run-1'), $('run-2'), $('run-3')], typeHint = $('type-hint');
+        var revealed = false;
+
+        // start with the word blacked out
+        function blackoutBoxes() {
+            boxes.forEach(function (b) { b.classList.add('hidden-letter'); });
+        }
+        blackoutBoxes();
+
+        // staggered reveal on first keypress
+        function revealBoxes() {
+            if (revealed) return;
+            revealed = true;
+            boxes.forEach(function (b, i) {
+                setTimeout(function () {
+                    b.classList.remove('hidden-letter');
+                    b.classList.add('reveal');
+                    setTimeout(function () { b.classList.remove('reveal'); }, 500);
+                }, i * 90);
+            });
+        }
 
         function resetRun() {
             pos = 0;
+            revealed = false;
             boxes.forEach(function (b) {
                 b.className = 'lbox';
                 b.textContent = '\u00A0';
             });
-            boxes[0].classList.add('cursor');
+            // black the word back out; the next first keypress reveals it again
+            blackoutBoxes();
+            boxes[0].classList.remove('hidden-letter');
+            boxes[0].classList.add('blackout', 'cursor');
+            setTimeout(function () {
+                boxes[0].classList.remove('blackout');
+                boxes[0].classList.add('hidden-letter');
+            }, 320);
         }
 
         function advanceRun() {
@@ -274,6 +316,7 @@
 
         function onKey(e) {
             if (e.repeat) return;
+            revealBoxes(); // first keypress animates the word in
             if (runs >= 3 || pos >= WORD.length) return;
             if (e.key === 'Backspace' && pos > 0) {
                 pos--;
