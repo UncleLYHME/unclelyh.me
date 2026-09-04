@@ -96,15 +96,26 @@
             .frame > main > *:not(.cert) { display: none !important; }
             .cert { display: block !important; animation: none; }
             .cert-paper { box-shadow: none; background: #fff; }
-            /* zero page margins so the browser prints no URL/date footer, and the
-               paper fits one page exactly */
+            /* zero page margins so the browser prints no URL/date footer */
             @page { margin: 0; size: letter; }
             html, body { background: #fff; overflow: visible; }
-            body { padding: 0 !important; }
+            body { padding: 0 !important; margin: 0 !important; }
+            /* one page exactly: fixed height, everything positioned inside it */
             .cert { max-width: none; }
-            .cert-paper { border-radius: 0; min-height: 100vh; display: flex; flex-direction: column; }
-            .cert-inner { margin: auto 0; padding: 2rem 2.5rem; }
-            .cert-sig, .cert-seal { bottom: 3rem; }
+            .cert-paper {
+                border-radius: 0;
+                height: 100vh;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+            .cert-inner { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 3rem 3rem 0; }
+            /* sig + seal in normal flow (no absolute positioning across a page break) */
+            .cert-sig { position: static; order: 2; margin: 0 0 2.5rem 3rem; align-items: flex-start; }
+            .cert-seal { position: static; order: 3; margin: -4.5rem 3rem 2.5rem auto; }
+            .cert-body-pad { padding-bottom: 0; }
         }
     </style>
 </head>
@@ -178,7 +189,7 @@
                     <div class="cert-sig">
                         <span class="sig-script">Uncle LYHME</span>
                         <span class="sig-rule" aria-hidden="true"></span>
-                        <span class="sig-title">Morgan Nuttall &middot; Founder</span>
+                        <span class="sig-title">Owner &amp; Founder</span>
                     </div>
                     <svg class="cert-seal" viewBox="0 0 100 100" aria-hidden="true">
                         <defs>
