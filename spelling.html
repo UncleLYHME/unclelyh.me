@@ -46,8 +46,7 @@
         @media (max-width: 480px) { .quiz-options { grid-template-columns: 1fr; } }
         .opt { padding: .8rem; font-family: var(--font-mono); font-size: 1.05rem; letter-spacing: .12em; background: var(--bg-inset); border: 1px solid var(--rule-strong); border-radius: 8px; color: var(--fg); cursor: pointer; transition: border-color .15s, background .15s; }
         .opt:hover:not(:disabled) { border-color: var(--ring); }
-        .opt.correct { border-color: var(--accent); background: rgba(47,220,110,.12); }
-        .opt.wrong { border-color: #e05252; background: rgba(224,82,82,.1); opacity: .7; }
+        .opt.picked { border-color: var(--accent); box-shadow: 0 0 10px var(--glow); color: var(--accent-ink); }
 
         /* final typed answer */
         .final-input { width: 100%; font-family: var(--font-mono); font-size: 1.4rem; letter-spacing: .2em; text-align: center; padding: .9rem; background: var(--bg-inset); border: 1px solid var(--rule-strong); border-radius: 8px; color: var(--fg); outline: none; }
@@ -132,7 +131,7 @@
                 <p class="hint" id="type-hint">Click the letters or just start typing. The H is not optional.</p>
             </section>
 
-            <!-- Step 2: quiz -->
+            <!-- Step 2: quiz + final answer, graded on submit -->
             <section class="stage hidden" id="stage-quiz" aria-labelledby="quiz-h">
                 <h2 id="quiz-h" class="quiz-q" style="margin-top:0">Pop quiz.</h2>
 
@@ -142,17 +141,13 @@
                 <p class="quiz-q">2. Which of these is a <b>wrong</b> way to spell it?</p>
                 <div class="quiz-options" id="quiz-options-2" role="group" aria-label="Question 2 choices"></div>
 
-                <p class="hint" id="quiz-hint"></p>
-            </section>
-
-            <!-- Step 3: final answer -->
-            <section class="stage hidden" id="stage-final" aria-labelledby="final-h">
-                <h2 id="final-h" class="quiz-q" style="margin-top:0">Last one. How do you spell it?</h2>
+                <p class="quiz-q">3. How do you spell it?</p>
                 <p class="hint" style="margin-top:0">In ALL CAPS. Respect the word.</p>
                 <input class="final-input" id="final-input" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="?" aria-label="Spell the word in all caps">
-                <p class="hint" id="final-hint"></p>
+
+                <p class="hint" id="quiz-hint"></p>
                 <div class="sp-btns">
-                    <button id="btn-final">Submit</button>
+                    <button class="primary" id="btn-submit-quiz">Submit answers</button>
                 </div>
             </section>
 
@@ -315,10 +310,10 @@
             }
             return a;
         }
-        var q1Answered = false, q2Answered = false;
+        var q1Answer = null, q2Answer = null; // store picks, don't reveal
         var quizHint = $('quiz-hint');
 
-        function buildOptions(hostId, choices, correct, isWrongPick) {
+        function buildOptions(hostId, choices, correct, isWrongPick, store) {
             var host = $(hostId);
             host.innerHTML = '';
             shuffle(choices).forEach(function (word) {
@@ -326,29 +321,13 @@
                 b.className = 'opt';
                 b.textContent = word;
                 b.addEventListener('click', function () {
-                    if (b.disabled) return;
-                    var hit = isWrongPick ? (word !== correct) : (word === correct);
-                    if (hit) {
-                        b.classList.add('correct');
-                        b.disabled = true;
-                        if (hostId === 'quiz-options-1') q1Answered = true; else q2Answered = true;
-                        if (q1Answered && q2Answered) {
-                            quizHint.className = 'hint good';
-                            quizHint.textContent = 'Perfect score. One last check below.';
-                            setTimeout(function () {
-                                $('stage-quiz').classList.add('hidden');
-                                $('stage-final').classList.remove('hidden');
-                                $('final-input').focus();
-                            }, 900);
-                        }
-                    } else {
-                        b.classList.add('wrong');
-                        b.disabled = true;
-                        quizHint.className = 'hint err';
-                        quizHint.textContent = isWrongPick
-                            ? 'That one is actually correct. Pick a fake.'
-                            : 'That is how the rest of the internet spells it. Wrong.';
-                    }
+                    if (b.classList.contains('picked')) return;
+                    // mark only this button picked, deselect siblings, reveal nothing
+                    host.querySelectorAll('.opt').forEach(function (o) { o.classList.remove('picked'); });
+                    b.classList.add('picked');
+                    store(word);
+                    quizHint.className = 'hint';
+                    quizHint.textContent = 'Answer locked in. Submit when ready.';
                 });
                 host.appendChild(b);
             });
@@ -357,46 +336,60 @@
         function startQuiz() {
             $('stage-type').classList.add('hidden');
             $('stage-quiz').classList.remove('hidden');
-            buildOptions('quiz-options-1', ['LYHME', 'LHYME', 'LYME', 'LIME'], 'LYHME', false);
-            buildOptions('quiz-options-2', ['LYHME', 'LHYME', 'LHIME', 'LYHME.'], 'LYHME', true);
+            $('btn-submit-quiz').classList.remove('hidden');
+            buildOptions('quiz-options-1', ['LYHME', 'LHYME', 'LYME', 'LIME'], 'LYHME', false, function (w) { q1Answer = w; });
+            buildOptions('quiz-options-2', ['LYHME', 'LHYME', 'LHIME', 'LYHME.'], 'LYHME', true, function (w) { q2Answer = w; });
         }
 
-        // final typed answer — must be ALL CAPS
-        var finalTries = 0;
-        function checkFinal() {
-            var input = $('final-input');
-            var val = input.value.trim();
-            if (!val) return;
-            finalTries++;
-            var hint = $('final-hint');
-            if (val === WORD) {
-                input.classList.remove('bad');
-                input.classList.add('ok');
-                hint.className = 'hint good';
-                hint.textContent = 'LOUD AND CORRECT.';
-                setTimeout(finish, 700);
-            } else if (val.toUpperCase() === WORD && val !== WORD) {
-                input.classList.remove('bad');
-                void input.offsetWidth;
-                input.classList.add('bad');
-                hint.className = 'hint err';
-                hint.textContent = 'Spelling is right, volume is wrong. ALL CAPS.';
+        // grade everything on submit
+        function gradeQuiz() {
+            if (!q1Answer || !q2Answer) {
+                quizHint.className = 'hint err';
+                quizHint.textContent = 'Answer both questions first.';
+                return;
+            }
+            var finalVal = $('final-input').value.trim();
+            if (!finalVal) {
+                quizHint.className = 'hint err';
+                quizHint.textContent = 'Spell it at the bottom first.';
+                return;
+            }
+            var q1Right = q1Answer === 'LYHME';
+            var q2Right = q2Answer !== 'LYHME'; // question 2 asks for a WRONG spelling
+            var finalRight = finalVal === 'LYHME';
+            if (q1Right && q2Right && finalRight) {
+                quizHint.className = 'hint good';
+                quizHint.textContent = 'PASSED. Correct on all three.';
+                setTimeout(finish, 900);
             } else {
-                input.classList.remove('bad');
-                void input.offsetWidth;
-                input.classList.add('bad');
-                hint.className = 'hint err';
-                hint.textContent = finalTries >= 2 ? 'Five letters. L, Y, H, M, E. You just typed it three times.' : 'Not quite. ALL CAPS.';
+                quizHint.className = 'hint err';
+                var missed = [];
+                if (!q1Right) missed.push('question 1');
+                if (!q2Right) missed.push('question 2');
+                if (!finalRight) missed.push('the final spelling');
+                quizHint.textContent = 'FAILED. You missed ' + missed.join(' and ') + '. Study the word and try again.';
+                setTimeout(function () {
+                    // reset quiz state for retry, scroll back to typing test
+                    q1Answer = null; q2Answer = null;
+                    $('final-input').value = '';
+                    startQuiz();
+                    $('stage-quiz').classList.add('hidden');
+                    $('stage-type').classList.remove('hidden');
+                    runs = 0; pos = 0;
+                    runDots.forEach(function (rd) { rd.classList.remove('done'); });
+                    resetRun();
+                    if ($('stage-type').scrollIntoView) $('stage-type').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 2200);
             }
         }
-        $('btn-final').addEventListener('click', checkFinal);
+        $('btn-submit-quiz').addEventListener('click', gradeQuiz);
         $('final-input').addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') checkFinal();
+            if (e.key === 'Enter') gradeQuiz();
         });
 
         // finish: confetti + certificate
         function finish() {
-            $('stage-final').classList.add('hidden');
+            $('stage-quiz').classList.add('hidden');
             $('cert-date').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
             $('cert').classList.add('show');
             $('cert').setAttribute('aria-hidden', 'false');
@@ -409,17 +402,16 @@
         $('btn-again').addEventListener('click', function () {
             $('cert').classList.remove('show');
             $('cert').setAttribute('aria-hidden', 'true');
-            runs = 0; pos = 0; finalTries = 0; q1Answered = false; q2Answered = false;
+            runs = 0; pos = 0; q1Answer = null; q2Answer = null;
             runDots.forEach(function (d) { d.classList.remove('done'); });
             $('final-input').value = '';
             $('final-input').className = 'final-input';
-            ['type-hint', 'quiz-hint', 'final-hint'].forEach(function (h) {
+            ['type-hint', 'quiz-hint'].forEach(function (h) {
                 $(h).textContent = '';
                 $(h).className = 'hint';
             });
             $('type-hint').textContent = 'Click the letters or just start typing. The H is not optional.';
             resetRun();
-            $('stage-final').classList.add('hidden');
             $('stage-quiz').classList.add('hidden');
             $('stage-type').classList.remove('hidden');
         });
