@@ -12,7 +12,7 @@ build/
 .vscode/
 .idea/
 *.log
-nginx/
+nginx/*.conf
 compose.yaml
 Dockerfile
 .dockerignore
