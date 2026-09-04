@@ -3,19 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1a1a2e">
-    <title>404 - uncle lyhme</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=21">
+    <meta name="theme-color" content="#0e0e10">
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="noindex">
+    <title>404 | Uncle LYHME</title>
+    <link rel="stylesheet" href="assets/css/tokens.css?v=44">
+    <link rel="stylesheet" href="assets/css/layout.css?v=44">
     <link rel="icon" href="./assets/img/avatar.png" type="image/png">
+    <style>
+        .nf-wrap { max-width: 640px; margin: 0 auto; text-align: center; padding: 4.5rem 1.5rem 3rem; }
+        .nf-code {
+            font-family: var(--font-mono);
+            font-size: clamp(4.5rem, 18vw, 8rem);
+            font-weight: 700;
+            letter-spacing: .08em;
+            color: var(--bg-inset);
+            -webkit-text-stroke: 2px var(--rule-strong);
+            line-height: 1;
+            user-select: none;
+        }
+        .nf-code b { color: var(--accent); -webkit-text-stroke: 0; font-weight: 700; }
+        .nf-head { margin: 1.25rem 0 .5rem; font-size: clamp(1.4rem, 4vw, 2rem); }
+        .nf-sub { color: var(--fg-dim); max-width: 30rem; margin: 0 auto 2rem; }
+        .nf-acts { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+        .nf-btn {
+            display: inline-block; padding: .65rem 1.4rem; border-radius: 8px;
+            font-weight: 600; text-decoration: none; border: 1px solid var(--rule-strong);
+            color: var(--fg); transition: border-color .12s, box-shadow .12s, transform .12s;
+        }
+        .nf-btn:hover { border-color: var(--accent); box-shadow: 0 0 14px var(--glow); transform: translateY(-1px); }
+        .nf-btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+        .nf-btn.primary:hover { filter: brightness(1.08); }
+        .nf-quiz { margin-top: 3rem; color: var(--fg-dim); font-size: .9rem; }
+        .nf-quiz a { color: var(--accent-ink); }
+    </style>
 </head>
 
 <body>
-    <main class="container">
-        <section class="section" style="text-align: center; padding-top: 4rem;">
-            <h2 style="font-size: 4rem; margin-bottom: 1rem;">404</h2>
-            <p style="margin-bottom: 2rem;">page not found</p>
-            <a href="/" class="entry-link">back to home &rarr;</a>
-        </section>
-    </main>
+    <div class="glow" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="frame">
+        <header class="site-head">
+            <a class="wordmark" href="/">UNCLELYH<span class="tld">.ME</span></a>
+            <nav class="head-nav" aria-label="Sections">
+                <a href="/">home</a>
+            </nav>
+        </header>
+
+        <main class="nf-wrap">
+            <div class="nf-code" aria-hidden="true">4<b>0</b>4</div>
+            <h1 class="nf-head">This page never spelled it right.</h1>
+            <p class="nf-sub">Whatever you were looking for isn't here. It either moved, never existed, or spelled LYHME wrong one time too many.</p>
+            <div class="nf-acts">
+                <a href="/" class="nf-btn primary">Back to home</a>
+                <a href="/spelling" class="nf-btn">Learn to spell LYHME</a>
+            </div>
+            <p class="nf-quiz">Think this page should exist? <a href="/">Start over</a> and try a different spelling of the URL. The H is not optional.</p>
+        </main>
+    </div>
 </body>
 </html>
