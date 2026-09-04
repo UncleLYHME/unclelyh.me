@@ -12,7 +12,6 @@ build/
 .vscode/
 .idea/
 *.log
-nginx/*.conf
 compose.yaml
 Dockerfile
 .dockerignore
