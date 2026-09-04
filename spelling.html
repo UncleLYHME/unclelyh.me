@@ -26,7 +26,7 @@
         /* typing test */
         .letter-row { display: flex; justify-content: center; gap: .6rem; margin: 1.25rem 0; }
         .lbox { width: clamp(3rem, 9vw, 4.2rem); height: clamp(3.4rem, 10vw, 4.8rem); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: clamp(1.8rem, 6vw, 2.6rem); font-weight: 700; letter-spacing: .05em; background: var(--bg-inset); border: 1px solid var(--rule-strong); border-radius: 10px; color: var(--fg); transition: border-color .12s, box-shadow .12s, transform .12s; }
-        .lbox.cursor { border-color: var(--ring); box-shadow: 0 0 14px var(--glow); transform: translateY(-2px); }
+        .lbox.cursor { }
         .lbox.ok { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 14px var(--glow); }
         .lbox.bad { border-color: #e05252; color: #e05252; box-shadow: 0 0 14px rgba(224,82,82,.25); animation: shake .25s; }
         /* hidden word: letters blacked out until the test starts */
