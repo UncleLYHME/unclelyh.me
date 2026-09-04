@@ -138,7 +138,7 @@
                 <p class="quiz-q">1. Which is the <b>correct</b> spelling?</p>
                 <div class="quiz-options" id="quiz-options-1" role="group" aria-label="Question 1 choices"></div>
 
-                <p class="quiz-q">2. Which of these is a <b>wrong</b> way to spell it?</p>
+                <p class="quiz-q">2. Select <b>every</b> wrong way to spell it:</p>
                 <div class="quiz-options" id="quiz-options-2" role="group" aria-label="Question 2 choices"></div>
 
                 <p class="quiz-q">3. How do you spell it?</p>
@@ -310,7 +310,7 @@
             }
             return a;
         }
-        var q1Answer = null, q2Answer = null; // store picks, don't reveal
+        var q1Answer = null, q2Set = new Set(); // q2 is multi-select
         var quizHint = $('quiz-hint');
 
         function buildOptions(hostId, choices, correct, isWrongPick, store) {
@@ -321,11 +321,17 @@
                 b.className = 'opt';
                 b.textContent = word;
                 b.addEventListener('click', function () {
-                    if (b.classList.contains('picked')) return;
-                    // mark only this button picked, deselect siblings, reveal nothing
-                    host.querySelectorAll('.opt').forEach(function (o) { o.classList.remove('picked'); });
-                    b.classList.add('picked');
-                    store(word);
+                    if (isWrongPick) {
+                        // multi-select: toggle each option independently
+                        b.classList.toggle('picked');
+                        var set = store();
+                        set.has(word) ? set.delete(word) : set.add(word);
+                    } else {
+                        // single-select: mark this one, deselect siblings
+                        host.querySelectorAll('.opt').forEach(function (o) { o.classList.remove('picked'); });
+                        b.classList.add('picked');
+                        store(word);
+                    }
                     quizHint.className = 'hint';
                     quizHint.textContent = 'Answer locked in. Submit when ready.';
                 });
@@ -337,15 +343,21 @@
             $('stage-type').classList.add('hidden');
             $('stage-quiz').classList.remove('hidden');
             $('btn-submit-quiz').classList.remove('hidden');
+            q2Set = new Set();
             buildOptions('quiz-options-1', ['LYHME', 'LHYME', 'LYME', 'LIME'], 'LYHME', false, function (w) { q1Answer = w; });
-            buildOptions('quiz-options-2', ['LYHME', 'LHYME', 'LHIME', 'LYHME.'], 'LYHME', true, function (w) { q2Answer = w; });
+            buildOptions('quiz-options-2', ['LYHME', 'LHYME', 'LHIME', 'LYHME.'], 'LYHME', true, function () { return q2Set; });
         }
 
         // grade everything on submit
         function gradeQuiz() {
-            if (!q1Answer || !q2Answer) {
+            if (!q1Answer) {
                 quizHint.className = 'hint err';
-                quizHint.textContent = 'Answer both questions first.';
+                quizHint.textContent = 'Answer question 1 first.';
+                return;
+            }
+            if (!q2Set.size) {
+                quizHint.className = 'hint err';
+                quizHint.textContent = 'Pick at least one wrong spelling in question 2.';
                 return;
             }
             var finalVal = $('final-input').value.trim();
@@ -355,7 +367,7 @@
                 return;
             }
             var q1Right = q1Answer === 'LYHME';
-            var q2Right = q2Answer !== 'LYHME'; // question 2 asks for a WRONG spelling
+            var q2Right = q2Set.size === 3 && !q2Set.has('LYHME'); // all three wrong ones, and not the correct word
             var finalRight = finalVal === 'LYHME';
             if (q1Right && q2Right && finalRight) {
                 quizHint.className = 'hint good';
@@ -370,7 +382,7 @@
                 quizHint.textContent = 'FAILED. You missed ' + missed.join(' and ') + '. Study the word and try again.';
                 setTimeout(function () {
                     // reset quiz state for retry, scroll back to typing test
-                    q1Answer = null; q2Answer = null;
+                    q1Answer = null; q2Set = new Set();
                     $('final-input').value = '';
                     startQuiz();
                     $('stage-quiz').classList.add('hidden');
@@ -402,7 +414,7 @@
         $('btn-again').addEventListener('click', function () {
             $('cert').classList.remove('show');
             $('cert').setAttribute('aria-hidden', 'true');
-            runs = 0; pos = 0; q1Answer = null; q2Answer = null;
+            runs = 0; pos = 0; q1Answer = null; q2Set = new Set();
             runDots.forEach(function (d) { d.classList.remove('done'); });
             $('final-input').value = '';
             $('final-input').className = 'final-input';
