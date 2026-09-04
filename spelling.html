@@ -90,6 +90,8 @@
 
         /* print: certificate only, looks like a real document */
         @media print {
+            /* shared layout.css hides .frame for the homepage print-resume; restore it here */
+            .frame { display: block !important; }
             body > *:not(.frame), .site-head, .sp-foot, .glow, .grain, #confetti-canvas, .cert-actions { display: none !important; }
             .frame > main > *:not(.cert) { display: none !important; }
             .cert { display: block !important; animation: none; }
