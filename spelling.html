@@ -88,7 +88,7 @@
         .sp-foot a { color: var(--accent-ink); }
         #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
 
-        /* print: certificate only, looks like a real document */
+        /* print: certificate only, one clean page */
         @media print {
             /* shared layout.css hides .frame for the homepage print-resume; restore it here */
             .frame { display: block !important; }
@@ -96,6 +96,15 @@
             .frame > main > *:not(.cert) { display: none !important; }
             .cert { display: block !important; animation: none; }
             .cert-paper { box-shadow: none; background: #fff; }
+            /* zero page margins so the browser prints no URL/date footer, and the
+               paper fits one page exactly */
+            @page { margin: 0; size: letter; }
+            html, body { background: #fff; overflow: visible; }
+            body { padding: 0 !important; }
+            .cert { max-width: none; }
+            .cert-paper { border-radius: 0; min-height: 100vh; display: flex; flex-direction: column; }
+            .cert-inner { margin: auto 0; padding: 2rem 2.5rem; }
+            .cert-sig, .cert-seal { bottom: 3rem; }
         }
     </style>
 </head>
