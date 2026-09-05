@@ -323,11 +323,7 @@ function render(d, first) {
     const [y, m] = item.label.split('-');
     return new Date(y, m-1, 1).toLocaleDateString([], { month:'short', year:'2-digit' });
   };
-  const usdTick = v => v == null ? '' : '$' + (v >= 100 ? Math.round(v).toLocaleString() : v.toFixed(2));
-  const costTooltip = { ...tooltip, callbacks: {
-    label: item => item.dataset.yAxisID === 'yCost'
-      ? ` Cost: ${usd(item.parsed.y)}`
-      : ` ${item.dataset.label}: ${fmt(item.parsed.y)}` } };
+
 
   if (first) {
   const mkCloudChart = (canvasId, title, hex) => {
@@ -337,14 +333,10 @@ function render(d, first) {
       data:{ labels:[], datasets:[
         { label:granLabel.daily, data:[], yAxisID:'y',
           backgroundColor: hex, hoverBackgroundColor:'#4be584', borderRadius:4, borderSkipped:false, maxBarThickness:26 },
-        { label:'Cost', data:[], yAxisID:'yCost', type:'line',
-          borderColor:'#c084fc', borderWidth:2, tension:.35, pointRadius:0, pointHoverRadius:4 },
       ]},
       options:{ ...hoverLine,
-        plugins:{ tooltip:costTooltip, legend:leg },
+        plugins:{ tooltip, legend:leg },
         scales:{ y:{ beginAtZero:true, ...yFmt() },
-                 yCost:{ position:'right', beginAtZero:true, grid:{ display:false },
-                         ticks:{ callback:usdTick, ...tick }, border:{ display:false } },
                  x: xTime(8) } }
     });
   };
