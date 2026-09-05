@@ -219,13 +219,12 @@ function render(d, first) {
 
   const la = (d.hardware || {}).latency || {};
   const arrow = (d, cls=true) => d > 0 ? `<span class="${cls?'up':''}">▲ ${fmt(Math.abs(d))}</span> vs prior` : d < 0 ? `<span class="${cls?'down':''}">▼ ${fmt(Math.abs(d))}</span> vs prior` : 'flat vs prior';
-  const pctTxt = w => w.delta_pct != null ? ` (${w.delta_pct > 0 ? '+' : ''}${w.delta_pct}%)` : '';
   const cards = [
     ['Lifetime', w.lifetime.total, `${fmt(w.lifetime.prompt)} in / ${fmt(w.lifetime.output)} out`, w.lifetime.total],
     ['This year', w.ytd.total, 'since Jan 1', w.ytd.total],
-    ['Last 30 days', w['30d'].total, `${arrow(w['30d'].delta)}${pctTxt(w['30d'])}`, w['30d'].total],
-    ['Last 7 days', w['7d'].total, `${arrow(w['7d'].delta)}${pctTxt(w['7d'])}`, w['7d'].total],
-    ['Last 24 hours', w['24h'].total, `${arrow(w['24h'].delta)}${pctTxt(w['24h'])}`, w['24h'].total],
+    ['Last 30 days', w['30d'].total, `${arrow(w['30d'].delta)}`, w['30d'].total],
+    ['Last 7 days', w['7d'].total, `${arrow(w['7d'].delta)}`, w['7d'].total],
+    ['Last 24 hours', w['24h'].total, `${arrow(w['24h'].delta)}`, w['24h'].total],
     ['Avg TTFT', la.avg_ttft_s != null ? `${la.avg_ttft_s}s` : '—', la.avg_e2e_s != null ? `${la.avg_e2e_s}s avg request` : '', null],
   ];
   document.getElementById('stats').innerHTML = cards.map(c =>
@@ -360,7 +359,6 @@ function render(d, first) {
       ch.data.labels = items.map(cuLabel);
       ch.data.datasets[0].data = items.map(x=>x.tokens);
       ch.data.datasets[0].label = granLabel[cuGran];
-      ch.data.datasets[1].data = items.map(x=>x.cost_usd);
       ch.update();
     }
   };
