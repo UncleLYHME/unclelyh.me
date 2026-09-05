@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0e0e10">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Uncle LYHME's self-hosted LLM inference on DGX Spark. Live usage, savings, and OpenUsage stats.">
+<meta name="author" content="Morgan Nuttall">
+
+<!-- Open Graph / Social -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Uncle LYHME - Self-Hosted Inference">
+<meta property="og:description" content="Self-hosted LLM inference on DGX Spark. Live usage, savings, and stats.">
+<meta property="og:url" content="https://ai.unclelyh.me">
+<meta property="og:image" content="/assets/img/usage/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Uncle LYHME">
+<meta name="twitter:description" content="Self-hosted LLM inference on DGX Spark. Live usage and savings.">
+<meta name="twitter:image" content="/assets/img/usage/og-image.png">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<title>Spark Usage | Uncle LYHME</title>
+<link rel="canonical" href="https://unclelyh.me/usage">
+<link rel="stylesheet" href="https://unclelyh.me/assets/css/tokens.css?v=44">
+<link rel="stylesheet" href="https://unclelyh.me/assets/css/layout.css?v=44">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+/* page-specific layout — shared tokens/font/palette come from unclelyh.me tokens.css */
+body { font:460 15px/1.6 var(--font-sans); }
+/* dashboard-tuned hero: same treatment as main site hero, scaled down */
+.hero-name-sm { font-size: clamp(2.4rem, 6vw, 4.25rem); }
+.page-head .sub { margin-top:.9rem; }
+.frame { position:relative; z-index:1; max-width:var(--max-width); margin:0 auto; padding:0 var(--gutter); min-height:100vh; display:flex; flex-direction:column; }
+main { flex:1; }
+.site-head { position:sticky; top:0; z-index:100; display:flex; align-items:center; height:var(--head-h); margin-inline:calc(-1 * var(--gutter)); padding-inline:var(--gutter); border-bottom:1px solid var(--rule); background:color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+.wordmark { font-weight:800; font-stretch:118%; letter-spacing:.02em; text-transform:uppercase; font-size:.9rem; text-decoration:none; color:var(--fg); white-space:nowrap; }
+.wordmark:hover { color:var(--fg); }
+.wordmark .tld { color:var(--accent-ink); }
+.head-nav { display:flex; align-items:center; gap:1.4rem; margin-left:auto; }
+.head-nav a { font-family:var(--font-mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; color:var(--fg-dim); }
+.head-nav a:hover { color:var(--accent-ink); }
+.page-head { padding:1.75rem 0 1.5rem; }
+h1 { font-size:1.4rem; font-weight:650; letter-spacing:-0.01em; display:flex; align-items:center; gap:.6rem; }
+h1 .dot { width:.55rem; height:.55rem; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); animation:pulse 2.4s var(--ease) infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.55} }
+.sub { color:var(--fg-dim); font-size:.82rem; margin:.3rem 0 0; font-family:var(--font-mono); letter-spacing:.04em; }
+.sub code { color:var(--accent-ink); }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:.75rem; margin-bottom:1.25rem; }
+.card { background:var(--bg-elev); border:1px solid var(--rule); border-radius:10px; padding:.9rem 1rem; position:relative; overflow:hidden; transition:border-color .25s var(--ease), transform .25s var(--ease); }
+.card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:var(--rule-strong); border-radius:10px 0 0 10px; }
+.tokens-cards .card::before { background:var(--accent); opacity:.4; }
+.card:hover { border-color:var(--rule-strong); transform:translateY(-1px); }
+.card .label { color:var(--fg-dim); font-size:.66rem; text-transform:uppercase; letter-spacing:.09em; font-weight:600; display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; }
+.card .value { font-size:1.5rem; font-weight:680; margin-top:.2rem; font-variant-numeric:tabular-nums; letter-spacing:-0.01em; line-height:1.15; }
+.card .detail { color:var(--fg-faint); font-size:.71rem; margin-top:.2rem; font-family:var(--font-mono); display:flex; align-items:center; gap:.35rem; }
+.card .detail .up { color:var(--accent-ink); }
+.card .detail .down { color:var(--amber); }
+.tokens-cards { grid-template-columns:repeat(3,1fr); }
+@media (max-width:640px){ .grid { grid-template-columns:repeat(2,1fr); } .card .value { font-size:1.25rem; } .tokens-cards { grid-template-columns:repeat(2,1fr); } }
+.panel { background:var(--bg-elev); border:1px solid var(--rule); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem; }
+.panel h2 { font-size:.72rem; font-weight:650; color:var(--fg-dim); text-transform:uppercase; letter-spacing:.09em; margin-bottom:1rem; }
+.charts { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.charts-full { grid-template-columns:1fr; }
+@media (max-width:720px){ .charts { grid-template-columns:1fr; } }
+.chart-box { background:var(--bg-inset); border:1px solid var(--rule); border-radius:10px; padding:.9rem; min-height:220px; }
+.sec h2 { display:flex; align-items:center; gap:.5rem; }
+.sec h2::before { content:''; width:.4rem; height:.4rem; border-radius:50%; background:var(--amber); box-shadow:0 0 6px var(--amber); }
+section.sec:nth-of-type(1) h2::before { background:var(--accent); box-shadow:0 0 6px var(--accent); }
+.savings { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:.75rem; }
+.save-card { background:var(--bg-inset); border:1px solid var(--rule); border-radius:10px; padding:1rem; text-align:center; }
+.save-card .who { color:var(--fg-dim); font-size:.78rem; font-weight:550; }
+.save-card .amount { font-size:1.8rem; font-weight:700; color:var(--accent-ink); font-variant-numeric:tabular-nums; text-shadow:0 0 14px var(--glow); margin-top:.15rem; }
+.save-card .equiv { color:var(--fg-faint); font-size:.72rem; margin-top:.2rem; }
+.save-card:nth-child(2) .amount { color:var(--amber); text-shadow:0 0 14px rgba(255,178,36,.14); }
+.pricing-note { margin-top:.9rem; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.05em; color:var(--fg-faint); text-transform:uppercase; text-align:center; }
+.pricing-note a { color:var(--fg-dim); text-decoration:none; border-bottom:1px dotted var(--rule-strong); }
+.pricing-note a:hover { color:var(--accent-ink); }
+.ou-toggle { display:flex; gap:.4rem; margin-bottom:.9rem; }
+.ou-toggle button { font-family:var(--font-mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; padding:.35rem .8rem; border-radius:999px; border:1px solid var(--rule-strong); background:transparent; color:var(--fg-dim); cursor:pointer; transition:all .2s var(--ease); }
+.ou-toggle button:hover { border-color:var(--accent-ink); color:var(--accent-ink); }
+.ou-toggle button.on { background:var(--accent); border-color:var(--accent); color:#0c0f0d; font-weight:650; }
+.footer { margin-top:auto; padding:1.5rem 0 2rem; border-top:1px solid var(--rule); display:flex; flex-wrap:wrap; gap:.75rem 2rem; justify-content:space-between; color:var(--fg-faint); font-family:var(--font-mono); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; }
+canvas { max-height:300px; width:100% !important; }
+.charts-full canvas { max-height:340px; }
+.skel { position:relative; overflow:hidden; background:var(--bg-inset); border-radius:6px; color:transparent !important; user-select:none; }
+.skel::after { content:''; position:absolute; inset:0; transform:translateX(-100%);
+  background:linear-gradient(90deg, transparent, rgba(233,239,233,.06), transparent);
+  animation:shimmer 1.4s infinite; }
+@keyframes shimmer { 100% { transform:translateX(100%); } }
+.skel .label, .skel .detail, .skel .who, .skel .equiv { visibility:hidden; }
+.skel .value, .skel .amount { background:var(--bg-inset); border-radius:6px; min-width:70%; min-height:1.2em; display:inline-block; }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="glow" aria-hidden="true"></div>
+<div class="frame">
+<header class="site-head">
+<a class="wordmark" href="https://unclelyh.me">UNCLELYH<span class="tld">.ME</span></a>
+<nav class="head-nav" aria-label="Sections">
+    <a href="https://unclelyh.me/#about">about</a>
+    <a href="https://unclelyh.me/#projects">projects</a>
+    <a href="https://ai.unclelyh.me/docs">api</a>
+</nav>
+</header>
+<main id="top">
+<div class="page-head">
+    <p class="hero-eyebrow mono" aria-hidden="true">
+        <span>self-hosted inference</span>
+        <span class="live">dual dgx sparks</span>
+    </p>
+    <h1 class="hero-name hero-name-sm" aria-label="Uncle LYHME">
+        <span class="row"><span>Uncle</span></span>
+        <span class="row"><span>LYHME</span></span>
+    </h1>
+</div>
+<section class="panel sec">
+  <h2>Tokens</h2>
+  <div class="grid tokens-cards" id="stats"></div>
+  <div class="charts">
+    <div class="chart-box"><canvas id="chart"></canvas></div>
+    <div class="chart-box"><canvas id="dailyChart"></canvas></div>
+  </div>
+</section>
+
+<section class="panel sec">
+  <h2>Cloud usage</h2>
+  <div class="ou-toggle" id="cloudToggle">
+    <button data-gran="daily" class="on">daily</button>
+    <button data-gran="weekly">weekly</button>
+    <button data-gran="monthly">monthly</button>
+  </div>
+  <div class="charts">
+    <div class="chart-box"><canvas id="cloudClaude"></canvas></div>
+    <div class="chart-box"><canvas id="cloudCodex"></canvas></div>
+  </div>
+</section>
+
+<section class="panel sec">
+  <h2>Savings vs cloud list prices</h2>
+  <div class="savings">
+    <div class="save-card">
+      <div class="who">Saved vs Claude Sonnet</div>
+      <div class="amount" id="save-claude">&mdash;</div>
+      <div class="equiv" id="equiv-claude"></div>
+    </div>
+    <div class="save-card">
+      <div class="who">Saved vs GPT</div>
+      <div class="amount" id="save-codex">&mdash;</div>
+      <div class="equiv" id="equiv-codex"></div>
+    </div>
+    <div class="save-card">
+      <div class="who">Same usage, GLM hosted</div>
+      <div class="amount" id="cost-glm">&mdash;</div>
+      <div class="equiv" id="equiv-glm">what we'd pay renting instead</div>
+    </div>
+  </div>
+  <div class="pricing-note" id="pricing-note"></div>
+</section>
+</main>
+<footer class="footer">
+<span>&copy; <span id="year"></span> Morgan Nuttall</span>
+<span>last updated <span id="updated-ago">&hellip;</span></span>
+</footer>
+</div>
+<script>
+const fmt = n => n >= 1e9 ? (n/1e9).toFixed(2)+'B' : n >= 1e6 ? (n/1e6).toFixed(2)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : String(n);
+const usd = n => '$' + n.toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2});
+
+// skeleton placeholders while fetching
+const skelCard = l => `<div class="card skel"><div class="label">${l}</div><div class="value"></div><div class="detail"></div></div>`;
+const skelSave = l => `<div class="save-card skel"><div class="who">${l}</div><div class="amount"></div><div class="equiv"></div></div>`;
+document.getElementById('stats').innerHTML = ['Lifetime','This year','Last 30 days','Last 7 days','Last 24 hours'].map(skelCard).join('');
+document.getElementById('save-claude').closest('.save-card').classList.add('skel');
+document.getElementById('save-codex').closest('.save-card').classList.add('skel');
+document.getElementById('cost-glm').closest('.save-card').classList.add('skel');
+
+// count-up animation
+function countUp(el, target, formatter, dur=900) {
+  const start = performance.now();
+  const tick = now => {
+    const t = Math.min(1, (now - start) / dur);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = formatter(target * eased);
+    if (t < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+function clearSkeletons() {
+  document.querySelectorAll('.skel').forEach(el => el.classList.remove('skel'));
+  document.querySelectorAll('#stats .value').forEach(el => { if (!el.textContent.trim()) el.textContent = '—'; });
+}
+let chartsBuilt = false;
+let lastUpdatedAt = 0;
+const cloudCharts = {};
+let cuGran = 'daily';
+
+function render(d, first) {
+  const w = d.windows;
+  lastUpdatedAt = d.updated_at;
+  const ago = () => {
+    const m = Math.max(0, Math.round((Date.now()/1000 - lastUpdatedAt)/60));
+    document.getElementById('updated-ago').textContent = m === 0 ? 'just now' : m === 1 ? '1 minute ago' : `${m} minutes ago`;
+  };
+  ago();
+  if (!window.__agoTimer) window.__agoTimer = setInterval(ago, 30000);
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const la = (d.hardware || {}).latency || {};
+  const arrow = (d, cls=true) => d > 0 ? `<span class="${cls?'up':''}">▲ ${fmt(Math.abs(d))}</span> vs prior` : d < 0 ? `<span class="${cls?'down':''}">▼ ${fmt(Math.abs(d))}</span> vs prior` : 'flat vs prior';
+  const pctTxt = w => w.delta_pct != null ? ` (${w.delta_pct > 0 ? '+' : ''}${w.delta_pct}%)` : '';
+  const cards = [
+    ['Lifetime', w.lifetime.total, `${fmt(w.lifetime.prompt)} in / ${fmt(w.lifetime.output)} out`, w.lifetime.total],
+    ['This year', w.ytd.total, 'since Jan 1', w.ytd.total],
+    ['Last 30 days', w['30d'].total, `${arrow(w['30d'].delta)}${pctTxt(w['30d'])}`, w['30d'].total],
+    ['Last 7 days', w['7d'].total, `${arrow(w['7d'].delta)}${pctTxt(w['7d'])}`, w['7d'].total],
+    ['Last 24 hours', w['24h'].total, `${arrow(w['24h'].delta)}${pctTxt(w['24h'])}`, w['24h'].total],
+    ['Avg TTFT', la.avg_ttft_s != null ? `${la.avg_ttft_s}s` : '—', la.avg_e2e_s != null ? `${la.avg_e2e_s}s avg request` : '', null],
+  ];
+  document.getElementById('stats').innerHTML = cards.map(c =>
+    `<div class="card"><div class="label">${c[0]}</div><div class="value" ${c[3] != null ? `data-target="${c[3]}"` : ''}>${c[3] == null ? c[1] : '0'}</div><div class="detail">${c[2]}</div></div>`
+  ).join('');
+  document.querySelectorAll('#stats .value[data-target]').forEach(el => {
+    if (first) countUp(el, parseFloat(el.dataset.target), v => fmt(Math.round(v)));
+    else el.textContent = fmt(Math.round(parseFloat(el.dataset.target)));
+  });
+
+  if (first) {
+    countUp(document.getElementById('save-claude'), d.savings.claude.saved_usd, v => usd(v), 1100);
+    countUp(document.getElementById('save-codex'), d.savings.codex.saved_usd, v => usd(v), 1100);
+    countUp(document.getElementById('cost-glm'), d.savings.glm.equivalent_cost_usd, v => usd(v), 1100);
+  } else {
+    document.getElementById('save-claude').textContent = usd(d.savings.claude.saved_usd);
+    document.getElementById('save-codex').textContent = usd(d.savings.codex.saved_usd);
+    document.getElementById('cost-glm').textContent = usd(d.savings.glm.equivalent_cost_usd);
+  }
+  const pm = d.pricing_meta || {};
+  if (pm.source) {
+    const srcTxt = pm.source === 'openrouter' ? 'prices via <a href="https://openrouter.ai" rel="noopener">OpenRouter</a>' : pm.source === 'pricing.json' ? 'prices from manual overrides' : 'fallback list prices';
+    document.getElementById('pricing-note').innerHTML = `${srcTxt} &middot; refreshes nightly`;
+  }
+
+  document.getElementById('save-claude').closest('.save-card').classList.remove('skel');
+  document.getElementById('save-codex').closest('.save-card').classList.remove('skel');
+  document.getElementById('cost-glm').closest('.save-card').classList.remove('skel');
+  document.getElementById('equiv-claude').textContent = `same usage on Sonnet would cost ${usd(d.savings.claude.equivalent_cost_usd)}`;
+  document.getElementById('equiv-codex').textContent = `same usage on GPT would cost ${usd(d.savings.codex.equivalent_cost_usd)}`;
+
+  // ---- shared chart styling (site design system) ----
+  Chart.defaults.font.family = "'Archivo', sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = '#9fa89f';
+  Chart.defaults.animation.duration = 700;
+  Chart.defaults.animation.easing = 'easeOutQuart';
+  Chart.defaults.maintainAspectRatio = false;
+
+  const grid = { color:'rgba(35,40,35,.9)', drawBorder:false, lineWidth:1 };
+  const tick = { color:'#656e65', font:{ family:"'Archivo'", size:10 }, padding:6 };
+  const leg = { labels:{ color:'#9fa89f', boxWidth:8, boxHeight:8, usePointStyle:true, pointStyle:'line', font:{ size:10.5 } } };
+  const tooltip = {
+    backgroundColor:'rgba(12,15,13,.94)', borderColor:'#39413a', borderWidth:1,
+    titleColor:'#e9efe9', bodyColor:'#c4cdc4', padding:10, cornerRadius:8,
+    titleFont:{ weight:'600', size:11 }, bodyFont:{ size:11 }, displayColors:true, boxWidth:8, boxHeight:8, usePointStyle:true,
+  };
+  const hoverLine = { interaction:{ mode:'index', intersect:false }, plugins:{ tooltip, legend:leg } };
+  const xTime = maxTicks => ({ ticks:{ ...tick, maxTicksLimit:maxTicks, maxRotation:0 }, grid:{ display:false } });
+  const yFmt = (extra={}) => ({ ticks:{ callback:fmt, ...tick }, grid, border:{ display:false }, ...extra });
+  const grad = (ctx, hex, top=.28) => {
+    const c = ctx.createLinearGradient(0, 0, 0, 220);
+    const n = parseInt(hex.slice(1), 16), r = n>>16&255, g = n>>8&255, b = n&255;
+    c.addColorStop(0, `rgba(${r},${g},${b},${top})`);
+    c.addColorStop(1, `rgba(${r},${g},${b},0)`);
+    return c;
+  };
+  const azDay = day => {
+    const [y, m, dd] = day.split('-').map(Number);
+    return new Date(y, m-1, dd).toLocaleDateString([], { month:'short', day:'numeric' });
+  };
+
+  const labels = d.daily_cumulative.map(x=>azDay(x.day));
+  if (first) {
+  // cumulative area
+  new Chart(document.getElementById('chart'), {
+    type:'line',
+    data:{ labels, datasets:[{
+      label:'Cumulative tokens', data:d.daily_cumulative.map(x=>x.cumulative),
+      borderColor:'#2fdc6e', borderWidth:2, fill:true, tension:.35, pointRadius:0,
+      pointHoverRadius:4, pointHoverBackgroundColor:'#2fdc6e', pointHoverBorderColor:'#0c0f0d', pointHoverBorderWidth:2,
+      backgroundColor: c => grad(c.chart.ctx, '#2fdc6e'),
+    }]},
+    options:{ ...hoverLine, scales:{ y:{ beginAtZero:true, ...yFmt() }, x: xTime(8) } }
+  });
+  // daily bars
+  new Chart(document.getElementById('dailyChart'), {
+    type:'bar',
+    data:{ labels, datasets:[{
+      label:'Tokens / day', data:d.daily_cumulative.map(x=>x.tokens),
+      backgroundColor: labels.map((_,i)=> i === labels.length-1 ? '#2fdc6e' : 'rgba(47,220,110,.45)'),
+      hoverBackgroundColor:'#4be584', borderRadius:4, borderSkipped:false, maxBarThickness:26,
+    }]},
+    options:{ ...hoverLine, scales:{ y:{ beginAtZero:true, ...yFmt() }, x: xTime(8) } }
+  });
+  chartsBuilt = true;
+  } // end first-run chart creation
+
+  // ---- cloud usage history (Claude + Codex, daily/weekly/monthly) ----
+  const cu = d.cloud_usage || {};
+  const granLabel = { daily: 'Tokens / day', weekly: 'Tokens / week', monthly: 'Tokens / month' };
+  const cuLabel = item => {
+    if (cuGran === 'daily') return azDay(item.day);
+    if (cuGran === 'weekly') { const [y, wk] = item.label.split('-W'); return `wk ${wk} '${y.slice(2)}`; }
+    const [y, m] = item.label.split('-');
+    return new Date(y, m-1, 1).toLocaleDateString([], { month:'short', year:'2-digit' });
+  };
+  const usdTick = v => v == null ? '' : '$' + (v >= 100 ? Math.round(v).toLocaleString() : v.toFixed(2));
+  const costTooltip = { ...tooltip, callbacks: {
+    label: item => item.dataset.yAxisID === 'yCost'
+      ? ` Cost: ${usd(item.parsed.y)}`
+      : ` ${item.dataset.label}: ${fmt(item.parsed.y)}` } };
+
+  if (first) {
+  const mkCloudChart = (canvasId, title, hex) => {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    cloudCharts[canvasId] = new Chart(ctx, {
+      type:'bar',
+      data:{ labels:[], datasets:[
+        { label:granLabel.daily, data:[], yAxisID:'y',
+          backgroundColor: hex, hoverBackgroundColor:'#4be584', borderRadius:4, borderSkipped:false, maxBarThickness:26 },
+        { label:'Cost', data:[], yAxisID:'yCost', type:'line',
+          borderColor:'#c084fc', borderWidth:2, tension:.35, pointRadius:0, pointHoverRadius:4 },
+      ]},
+      options:{ ...hoverLine,
+        plugins:{ tooltip:costTooltip, legend:leg },
+        scales:{ y:{ beginAtZero:true, ...yFmt() },
+                 yCost:{ position:'right', beginAtZero:true, grid:{ display:false },
+                         ticks:{ callback:usdTick, ...tick }, border:{ display:false } },
+                 x: xTime(8) } }
+    });
+  };
+  mkCloudChart('cloudClaude', 'Claude', 'rgba(255,178,36,.55)');
+  mkCloudChart('cloudCodex', 'Codex', 'rgba(47,220,110,.45)');
+  document.querySelectorAll('#cloudToggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#cloudToggle button').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      cuGran = btn.dataset.gran;
+      renderCloud();
+    });
+  });
+  } // end first-run
+
+  const renderCloud = () => {
+    for (const [pid, canvasId] of [['claude','cloudClaude'], ['codex','cloudCodex']]) {
+      const items = (cu[pid] || {})[cuGran] || [];
+      const ch = cloudCharts[canvasId];
+      if (!ch) continue;
+      ch.data.labels = items.map(cuLabel);
+      ch.data.datasets[0].data = items.map(x=>x.tokens);
+      ch.data.datasets[0].label = granLabel[cuGran];
+      ch.data.datasets[1].data = items.map(x=>x.cost_usd);
+      ch.update();
+    }
+  };
+  renderCloud();
+  clearSkeletons();
+}
+
+function loadStats(first) {
+  fetch('/v1/usage-api/stats').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(d => render(d, first))
+    .catch(err => { console.error('stats load failed', err); clearSkeletons(); });
+}
+loadStats(true);
+// refresh data every 5 minutes so "last updated" and panels stay live
+setInterval(() => loadStats(false), 5 * 60 * 1000);
+
+</script>
+</body>
+</html>
