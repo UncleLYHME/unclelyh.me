@@ -1,0 +1,6 @@
+[Unit]
+Description=GLM usage collector scrape (every 5 min)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/glm53/usage/collector.py --scrape-only

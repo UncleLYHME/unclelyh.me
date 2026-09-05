@@ -1,0 +1,11 @@
+[Unit]
+Description=GLM usage stats dashboard (:8889)
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/glm53/usage/collector.py --serve
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
