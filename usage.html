@@ -270,7 +270,7 @@ function render(d, first) {
     if (first) countUp(beEl, be.remaining_usd, v => usd(v), 1100);
     else beEl.textContent = usd(be.remaining_usd);
     document.getElementById('equiv-breakeven').textContent =
-      be.remaining_usd <= 0 ? 'paid off — pure savings from here' : `${usd(be.saved_toward_usd)} of ${usd(be.hardware_cost_usd)} paid down`;
+      be.remaining_usd <= 0 ? 'paid off — pure savings from here' : `${usd(be.saved_toward_usd)} of GLM-equivalent spend paid down`;
     document.getElementById('be-fill').style.width = `${Math.min(be.pct_complete, 100)}%`;
   }
 

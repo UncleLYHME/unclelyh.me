@@ -704,8 +704,9 @@ def compute_stats():
             "label": OPENROUTER_LABELS[provider],
         }
 
-    # Break-even: hardware investment paid down by lifetime cloud savings.
-    total_saved = round(savings["claude"]["saved_usd"] + savings["codex"]["saved_usd"], 2)
+    # Break-even: hardware investment paid down by what the same usage would
+    # have cost at GLM list prices (the running cost we avoid by owning it).
+    total_saved = round(glm_cost, 2)
     remaining = round(max(HARDWARE_COST_USD - total_saved, 0.0), 2)
     savings["breakeven"] = {
         "hardware_cost_usd": HARDWARE_COST_USD,
