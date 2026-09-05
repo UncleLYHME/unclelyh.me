@@ -142,18 +142,21 @@ GLM_STD = {"input": 0.15, "output": 0.50, "cache_read": 0.03}
 DEFAULT_PRICING = {
     "glm": dict(GLM_STD),
     "claude": {"input": 3.0, "output": 15.0},  # anthropic/claude-sonnet-4.6 (Sonnet 4.8's price point)
-    "codex": {"input": 2.0, "output": 10.0},   # openai/gpt-5.6-sol
+    "codex": {"input": 2.0, "output": 12.0},   # openai/gpt-5.6-terra
 }
 
 OPENROUTER_MODELS = {
     "claude": "anthropic/claude-sonnet-4.6",
-    "codex": "openai/gpt-5.6-sol",
+    "codex": "openai/gpt-5.6-terra",
 }
 OPENROUTER_LABELS = {
     "glm": "GLM hosted (standard list)",
-    "claude": "Claude Sonnet (OpenRouter)",
-    "codex": "GPT (OpenRouter)",
+    "claude": "Claude (OpenRouter)",
+    "codex": "GPT 5.6 Terra (OpenRouter)",
 }
+
+# Hardware investment the savings pay down (Break Even card).
+HARDWARE_COST_USD = 10451.75
 OPENROUTER_URL = "https://openrouter.ai/api/v1/models"
 
 # OpenUsage (local agent on Morgan's Mac, tailscale-reachable) - tracks real
@@ -700,6 +703,17 @@ def compute_stats():
             "saved_usd": round(cost - glm_cost, 2),
             "label": OPENROUTER_LABELS[provider],
         }
+
+    # Break-even: hardware investment paid down by lifetime cloud savings.
+    total_saved = round(savings["claude"]["saved_usd"] + savings["codex"]["saved_usd"], 2)
+    remaining = round(max(HARDWARE_COST_USD - total_saved, 0.0), 2)
+    savings["breakeven"] = {
+        "hardware_cost_usd": HARDWARE_COST_USD,
+        "saved_toward_usd": total_saved,
+        "remaining_usd": remaining,
+        "pct_complete": round(100 * min(total_saved / HARDWARE_COST_USD, 1.0), 1),
+        "label": "Break Even",
+    }
 
     cumulative, running = [], 0
     for d, p, g in series:
